@@ -66,3 +66,5 @@ $ ganache-cli -d
 
 ## 【References】
 - Opolis
+  - 【ETHDenver 2021 / Opolis】Build a Referral System for $WORK Rewards：  
+     https://www.ethdenver.com/post/opolis
