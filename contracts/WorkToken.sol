@@ -6,10 +6,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract WorkToken is ERC20, Ownable {
     
-    constructor() public ERC20("Work Token", "WORK") {
+    constructor() public ERC20("Work Reward Token", "WORK") {
         uint initialSupply = 1e8 * 1e18;           /// Initial Supply amount is 100M
         address initialTokenHolder = msg.sender;   /// Deployer address
-        _mint(initialTokenHolder, initialSupply);  /// Deployer has 100M $WORK at first
+        _mint(initialTokenHolder, initialSupply);  /// Deployer has 100M $WORK at first as initial supply
     }
 
     /**
