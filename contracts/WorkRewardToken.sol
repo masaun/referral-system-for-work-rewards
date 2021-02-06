@@ -4,7 +4,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 
-contract WorkToken is ERC20, Ownable {
+contract WorkRewardToken is ERC20, Ownable {
     
     constructor() public ERC20("Work Reward Token", "WORK") {
         uint initialSupply = 1e8 * 1e18;           /// Initial Supply amount is 100M
