@@ -4,8 +4,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 
 /**
- * @notice - 5M $WORK Rewards are issued per “Payroll Mining Block” to Employee Members, Coalition Members and Stakers. 
- * @notice - Blocks are mined as the Network grows by increments of $50K or 5% in periodic payroll volume, whichever is greater.
+ * @notice - Members receive 100% of the referral credit for Employee Members who join
+ * @notice - Members receive 15% of the referral credit for referring Coalition Organizations who act as channel partners for referring new Employee Members.
+ * @notice - NO multi-level referral credit except for referring Organizations where the referring Member receives 15%. 
  */
 contract Referral is Ownable {
     
