@@ -72,7 +72,7 @@ contract PayrollMining is Ownable {
     }
 
     /**
-     * @notice - Every block (every 15 seconds), the latest periodic payroll volume is computed.
+     * @notice - Mine new block
      */
     function _mineBlock() internal returns (bool) {
         /// [Todo]:
