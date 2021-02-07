@@ -75,15 +75,15 @@ contract PayrollMining is Ownable {
     }
 
     /**
-     * @notice - Mine new block
+     * @notice - Mine new block (5M $WORK Rewards are issued per “Payroll Mining Block”)
      */
     function _mineBlock() internal returns (bool) {
-        /// [Todo]:
-
+        /// [Note]: Executor is only owner
+        workRewardToken.mintTo(address(this), workPerBlock);
     }
 
     /**
-     * @notice - Distribute $WORK tokens mined as reward
+     * @notice - Distribute $WORK tokens mined to Employee Members, Coalition Members and Stakers as reward
      */
     function _distributeWorkRewards() internal returns (bool) {
         /// [Todo]:
