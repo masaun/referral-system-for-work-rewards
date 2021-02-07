@@ -13,12 +13,21 @@ contract PayrollMining is Ownable {
     uint256 public startBlock;          /// The block number at which $WORK distribution starts.
     uint256 public endBlock;            /// The block number at which $WORK distribution ends.
     uint256 public totalAllocPoint = 0; /// Total allocation poitns. Must be the sum of all allocation points in all pools.
+
+    uint256 public lastPeriodicPayrollVolume;  /// Periodic payroll volume in the last block
     
     constructor() public {
         workPerBlock = 5000000;         /// 5M $WORK Rewards are issued per “Payroll Mining Block”
         startBlock = block.number;
     }
 
-
+    /**
+     * @notice - Update "Payroll Mining Block" when specified-condition is fulfilled.
+     * @notice - The condition is that the increments of periodic payroll volume is greater than $50K or 5%
+     */
+    function mineBlock() public returns (bool) {
+        uint256 blockNumber = block.number;
+        uint256 latestPeriodicPayrollVolume;  /// Periodic payroll volume in the latest block
+    }
     
 }
