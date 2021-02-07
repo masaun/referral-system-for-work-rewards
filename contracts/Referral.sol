@@ -13,7 +13,7 @@ import { MemberRegistry } from "./MemberRegistry.sol";
 contract Referral is Ownable {
     
     /**
-     * Entire Process
+     * Entire Process for referral action
      * ① Deploy a Linkdrop Contract
      * ② Generate claim links
      * ③ Send links to friends
