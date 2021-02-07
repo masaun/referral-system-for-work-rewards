@@ -56,8 +56,10 @@ contract PayrollMining is Ownable {
         /// [Todo]: Condition in order to judge whether the Block is mined or not
         if (differenceOfVolume > FIVE_K_DOLLAR) {            /// periodic payroll volume is greater than $50K
             _mineBlock();
+            _distributeWorkRewards();
         } else if (differenceOfPercentage > FIVE_PERCENT) {  /// periodic payroll volume is greater than 5%
             _mineBlock();
+            _distributeWorkRewards();
         }
 
         /// Update the last periodic payroll volume
@@ -77,6 +79,14 @@ contract PayrollMining is Ownable {
      */
     function _mineBlock() internal returns (bool) {
         /// [Todo]:
-    }    
+
+    }
+
+    /**
+     * @notice - Distribute $WORK tokens mined as reward
+     */
+    function _distributeWorkRewards() internal returns (bool) {
+        /// [Todo]:
+    }  
 
 }
