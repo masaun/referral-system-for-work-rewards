@@ -36,7 +36,7 @@ contract PayrollMining is Ownable {
     constructor(WorkRewardToken _workRewardToken) public {
         workRewardToken = _workRewardToken;
 
-        workPerBlock = 5000000;         /// 5M $WORK Rewards are issued per “Payroll Mining Block”
+        workPerBlock = 5000000;     /// 5M $WORK Rewards are issued per “Payroll Mining Block”
         startBlock = block.number;
     }
 
@@ -50,10 +50,11 @@ contract PayrollMining is Ownable {
 
         uint256 differenceOfVolume = latestPeriodicPayrollVolume.sub(lastPeriodicPayrollVolume);
         uint256 differenceOfPercentage = differenceOfVolume.div(lastPeriodicPayrollVolume);
-        uint256 FIVE_PERCENT = 5 * 1e18;
+        uint256 FIVE_K_DOLLAR = 50000 * 1e18; /// $50K
+        uint256 FIVE_PERCENT = 5 * 1e18;      /// 5%
 
         /// [Todo]: Condition in order to judge whether the Block is mined or not
-        if (differenceOfVolume > 50000) {  /// periodic payroll volume is greater than $50K
+        if (differenceOfVolume > FIVE_K_DOLLAR) {            /// periodic payroll volume is greater than $50K
             _mineBlock();
         } else if (differenceOfPercentage > FIVE_PERCENT) {  /// periodic payroll volume is greater than 5%
             _mineBlock();
