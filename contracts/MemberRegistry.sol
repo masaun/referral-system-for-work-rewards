@@ -37,5 +37,6 @@ contract MemberRegistry is Ownable {
     function getAllMembers() public returns (Member[] memory _members) {
         return members;
     }
+
     
 }

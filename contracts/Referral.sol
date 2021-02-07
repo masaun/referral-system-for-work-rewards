@@ -20,7 +20,10 @@ contract Referral is Ownable {
      * ④ One of Alice’s friends (Bob) can follow the link and claim the tokens
      */
 
-    uint referralCredit;
+    enum ReferralCreditType { EmployeeMember, CoalitionOrganization }
+
+    uint referralCreditRatioForEmployeeMember = 100 * 1e18;        /// 100%
+    uint referralCreditRatioForCoalitionOrganization = 15 * 1e18;  /// 15%
 
     MemberRegistry public memberRegistry;
 
