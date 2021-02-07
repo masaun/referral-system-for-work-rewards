@@ -22,7 +22,6 @@ contract PayrollMining is Ownable {
     // }
     // PoolInfo[] public poolInfo;         // Info of each pool.
 
-
     uint256 public workPerBlock;        /// $WORK tokens created per block.
     uint256 public startBlock;          /// The block number at which $WORK distribution starts.
     uint256 public endBlock;            /// The block number at which $WORK distribution ends.
@@ -30,6 +29,10 @@ contract PayrollMining is Ownable {
 
     uint256 public lastMinedBlock;             /// Last block number that $WORK distribution occured.
     uint256 public lastPeriodicPayrollVolume;  /// Periodic payroll volume in the last block
+
+    address[] employeeMembers;   /// Employee Members
+    address[] coalitionMembers;  /// Coalition Members
+    address[] stakers;           /// Stakers
 
     WorkRewardToken public workRewardToken;
     
@@ -86,7 +89,21 @@ contract PayrollMining is Ownable {
      * @notice - Distribute $WORK tokens mined to Employee Members, Coalition Members and Stakers as reward
      */
     function _distributeWorkRewards() internal returns (bool) {
-        /// [Todo]:
+        /// [Note]: Assuming that all receivers are received same $WORK amount, distribution below is executed
+        uint totalNumberOfReceivers = employeeMembers.length.add(coalitionMembers.length).add(stakers.length);
+        uint receivedWorkAmountPerReceiver = workPerBlock.div(totalNumberOfReceivers);
+
+        for (uint e=0; e < employeeMembers.length; e++) {
+            workRewardToken.transfer(employeeMembers[e], receivedWorkAmountPerReceiver);
+        }
+
+        for (uint c=0; c < coalitionMembers.length; c++) {
+            workRewardToken.transfer(coalitionMembers[c], receivedWorkAmountPerReceiver);
+        }
+
+        for (uint s=0; s < stakers.length; s++) {
+            workRewardToken.transfer(stakers[s], receivedWorkAmountPerReceiver);
+        }
     }  
 
 }
