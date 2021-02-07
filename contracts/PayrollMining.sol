@@ -44,7 +44,7 @@ contract PayrollMining is Ownable {
      * @notice - Update "Payroll Mining Block" when specified-condition is fulfilled.
      * @notice - The condition is that the increments of periodic payroll volume is greater than $50K or 5%
      */
-    function mineBlock() public returns (bool) {
+    function updateBlock() public returns (bool) {
         uint256 latestMinedBlock = block.number;
         uint256 latestPeriodicPayrollVolume = _computeLatestPeriodicPayrollVolume();  /// Periodic payroll volume in the latest block
 
@@ -54,9 +54,9 @@ contract PayrollMining is Ownable {
 
         /// [Todo]: Condition in order to judge whether the Block is mined or not
         if (differenceOfVolume > 50000) {  /// periodic payroll volume is greater than $50K
-
+            _mineBlock();
         } else if (differenceOfPercentage > FIVE_PERCENT) {  /// periodic payroll volume is greater than 5%
-
+            _mineBlock();
         }
 
         /// Update the last periodic payroll volume
@@ -70,5 +70,12 @@ contract PayrollMining is Ownable {
         uint256 latestPeriodicPayrollVolume;  /// Periodic payroll volume in the latest block
         return latestPeriodicPayrollVolume;
     }
-    
+
+    /**
+     * @notice - Every block (every 15 seconds), the latest periodic payroll volume is computed.
+     */
+    function _mineBlock() internal returns (bool) {
+        /// [Todo]:
+    }    
+
 }
