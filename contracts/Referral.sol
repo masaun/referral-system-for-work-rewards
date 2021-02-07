@@ -2,6 +2,8 @@ pragma solidity ^0.6.12;
 
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 
+import { MemberRegistry } from "./MemberRegistry.sol";
+
 
 /**
  * @notice - Members receive 100% of the referral credit for Employee Members who join
@@ -20,8 +22,11 @@ contract Referral is Ownable {
 
     uint referralCredit;
 
-    constructor() public {}
+    MemberRegistry public memberRegistry;
 
+    constructor(MemberRegistry _memberRegistry) public {
+        memberRegistry = _memberRegistry;
+    }
 
 
 }
