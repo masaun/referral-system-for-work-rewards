@@ -36,7 +36,7 @@ contract PayrollMining is Ownable {
     constructor(WorkRewardToken _workRewardToken) public {
         workRewardToken = _workRewardToken;
 
-        workPerBlock = 5000000;     /// 5M $WORK Rewards are issued per “Payroll Mining Block”
+        workPerBlock = 5000000 * 1e18;  /// 5M $WORK Rewards are issued per “Payroll Mining Block”
         startBlock = block.number;
     }
 
