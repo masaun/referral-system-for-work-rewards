@@ -16,7 +16,17 @@ contract MemberRegistry is Ownable {
     }
     Member[] members;
 
-
     constructor() public {}
+
+    /**
+     * @notice - Register a new member
+     */
+    function registerMember(address _memberAddress, MemberType _memberType) public returns (bool) {
+        Member memory member = Member({
+            memberAddress: _memberAddress,
+            memberType: _memberType
+        });
+        members.push(member);
+    }
 
 }
