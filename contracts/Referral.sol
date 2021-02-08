@@ -1,4 +1,5 @@
 pragma solidity ^0.6.12;
+pragma experimental ABIEncoderV2;
 
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -34,9 +35,9 @@ contract Referral is Ownable {
     function grantReferralCredit(address memberAddress, ReferralCreditType referralCreditType) public returns (bool) {
         uint referralCreditRatio;
         if (referralCreditType == ReferralCreditType.EmployeeMember) {
-            referralCreditRatio = referralCreditRatioForEmployeeMember;
+            referralCreditRatio = referralCreditRatioForEmployeeMember;         /// 100%
         } else if (referralCreditType == ReferralCreditType.CoalitionOrganization) {
-            referralCreditRatio = referralCreditRatioForCoalitionOrganization;
+            referralCreditRatio = referralCreditRatioForCoalitionOrganization;  /// 15%
         }
     }
 
