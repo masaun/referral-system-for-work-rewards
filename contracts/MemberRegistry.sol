@@ -1,4 +1,5 @@
 pragma solidity ^0.6.12;
+pragma experimental ABIEncoderV2;
 
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -29,4 +30,13 @@ contract MemberRegistry is Ownable {
         members.push(member);
     }
 
+
+    ///-------------------------------
+    /// Getter methods
+    ///-------------------------------
+    function getAllMembers() public returns (Member[] memory _members) {
+        return members;
+    }
+
+    
 }
