@@ -31,5 +31,14 @@ contract Referral is Ownable {
         memberRegistry = _memberRegistry;
     }
 
+    function grantReferralCredit(address memberAddress, ReferralCreditType referralCreditType) public returns (bool) {
+        uint referralCreditRatio;
+        if (referralCreditType == ReferralCreditType.EmployeeMember) {
+            referralCreditRatio = referralCreditRatioForEmployeeMember;
+        } else if (referralCreditType == ReferralCreditType.CoalitionOrganization) {
+            referralCreditRatio = referralCreditRatioForCoalitionOrganization;
+        }
+    }
+
 
 }
