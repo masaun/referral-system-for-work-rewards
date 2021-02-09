@@ -48,6 +48,14 @@ contract Referral is Ownable {
 
     /**
      * @notice - Create unique and sharable referral links for each Member who is referring new Members to Opolis
+     * @dev Function to verify linkdrop signer's signature
+     * @param _weiAmount Amount of wei to be claimed
+     * @param _tokenAddress Token address
+     * @param _tokenAmount Amount of tokens to be claimed (in atomic value)
+     * @param _expiration Unix timestamp of link expiration time
+     * @param _linkId Address corresponding to link key
+     * @param _signature ECDSA signature of linkdrop signer
+     * @return True if signed with linkdrop signer's private key
      */
     function createReferralLink(
         address memberAddress, 
