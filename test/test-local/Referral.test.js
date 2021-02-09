@@ -74,7 +74,7 @@ contract("Referral", function(accounts) {
             const _tokenAmount = web3.utils.toWei('100', 'ether');  /// 100 $WORK
             const _expiration = await time.latest();                /// The latest timestamp
             const _linkId = user1;
-            const _signature = "0x7465737400000000000000000000000000000000000000000000000000000000"
+            const _signature = "0x7465737400000000000000000000000000000000000000000000000000000000";  /// bytes32 type signature
             txReceipt = await referral.createReferralLink(_weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _signature, { from: user1 });
         });
     });
