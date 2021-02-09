@@ -89,6 +89,12 @@ contract Referral is Ownable {
 
     /**
      * @notice - Verification process for a referral link (after a distributed-referral link is used by a new user)
+     *
+     * @dev Function to verify linkdrop receiver's signature
+     * @param _linkId Address corresponding to link key
+     * @param _receiver Address of linkdrop receiver
+     * @param _signature ECDSA signature of linkdrop receiver
+     * @return True if signed with link key
      */
     function verifyReferralLink(
         LinkdropMastercopy _linkdropMaster,
@@ -105,6 +111,19 @@ contract Referral is Ownable {
 
     /**
      * @notice - Claim link by a creator of used-referral link (and then, they get tokens as referral rewards)
+     *
+     * @dev Function to claim ETH and/or ERC20 tokens
+     * @param _weiAmount Amount of wei to be claimed
+     * @param _tokenAddress Token address
+     * @param _tokenAmount Amount of tokens to be claimed (in atomic value)
+     * @param _expiration Unix timestamp of link expiration time
+     * @param _linkId Address corresponding to link key
+     * @param _linkdropMaster Address corresponding to linkdrop master key
+     * @param _campaignId Campaign id
+     * @param _linkdropSignerSignature ECDSA signature of linkdrop signer
+     * @param _receiver Address of linkdrop receiver
+     * @param _receiverSignature ECDSA signature of linkdrop receiver
+     * @return True if success
      */
     function claimLink(
         LinkdropFactory _linkdropFactory,
