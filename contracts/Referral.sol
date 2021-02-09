@@ -34,6 +34,9 @@ contract Referral is Ownable {
         linkdropERC20 = _linkdropERC20;
     }
 
+    /**
+     * @notice - Grant referral credit
+     */
     function grantReferralCredit(address memberAddress, ReferralCreditType referralCreditType) public returns (bool) {
         uint referralCreditRatio;
         if (referralCreditType == ReferralCreditType.EmployeeMember) {
@@ -43,5 +46,20 @@ contract Referral is Ownable {
         }
     }
 
+    /**
+     * @notice - Create unique and sharable referral links for each Member who is referring new Members to Opolis
+     */
+    function createReferralLink(
+        address memberAddress, 
+        ReferralCreditType referralCreditType,
+        uint _weiAmount,
+        address _tokenAddress,
+        uint _tokenAmount,
+        uint _expiration,
+        address _linkId,
+        bytes memory _signature        
+    ) public returns (bool) {
+        linkdropERC20.verifyLinkdropSignerSignature(_weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _signature);
+    }
 
 }
