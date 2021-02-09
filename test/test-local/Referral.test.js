@@ -7,6 +7,7 @@ const { time } = require('@openzeppelin/test-helpers');
 
 /// Artifact of smart contracts 
 const Referral = artifacts.require("Referral");
+const MemberRegistry = artifacts.require("MemberRegistry");
 
 
 /***
@@ -21,10 +22,11 @@ contract("Referral", function(accounts) {
 
     /// Global Tokenization contract instance
     let referral;
+    let memberRegistry;
 
     /// Global variable for each contract addresses
     let REFERRAL;
-
+    let MEMBER_REGISTRY;
 
     describe("Check state in advance", () => {
         it("Check all accounts", async () => {
@@ -33,9 +35,15 @@ contract("Referral", function(accounts) {
     }); 
 
     describe("Setup smart-contracts", () => {
+        it("Deploy the MemberRegistry contract instance", async () => {
+            const owner = deployer;
+            memberRegistry = await MemberRegistry.new({ from: deployer });
+            MEMBER_REGISTRY = memberRegistry.address;
+        });
+
         it("Deploy the Referral contract instance", async () => {
             const owner = deployer;
-            referral = await Referral.new(owner, { from: deployer });
+            referral = await Referral.new(MEMBER_REGISTRY, { from: deployer });
             REFERRAL = referral.address;
         });
     });
