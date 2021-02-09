@@ -27,8 +27,8 @@ contract Referral is Ownable {
     uint referralCreditRatioForEmployeeMember = 100 * 1e18;        /// 100%
     uint referralCreditRatioForCoalitionOrganization = 15 * 1e18;  /// 15%
 
-    address[] linkdropMasters;   /// All deployed-LinkdropMaster contract address are assigned into here
-    address[] linkdropFactories; /// All deployed-LinkdropFactory contract address are assigned into here
+    address[] public linkdropMasters;   /// All deployed-LinkdropMaster contract address are assigned into here
+    address[] public linkdropFactories; /// All deployed-LinkdropFactory contract address are assigned into here
 
     MemberRegistry public memberRegistry;
 
@@ -143,6 +143,20 @@ contract Referral is Ownable {
     ) public returns (bool) {
         LinkdropFactory linkdropFactory = _linkdropFactory;
 
+        /// Check parameters of the claimed-link in advance
+        bool result = linkdropFactory.checkClaimParams(_weiAmount, 
+                                                       _tokenAddress,
+                                                       _tokenAmount, 
+                                                       _expiration, 
+                                                       _linkId, 
+                                                       _linkdropMaster, 
+                                                       _campaignId, 
+                                                       _linkdropSignerSignature, 
+                                                       _receiver, 
+                                                       _receiverSignature);
+
+        require(result == true, "INSUFFICIENT_ALLOWANCE");
+        
         /// [Note]: Only link that is not expired link can be claimed
         linkdropFactory.claim(_weiAmount, 
                               _tokenAddress,
