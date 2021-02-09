@@ -1,4 +1,5 @@
-pragma solidity ^0.5.6;
+pragma solidity ^0.6.12;
+//pragma solidity ^0.5.6;
 
 interface ILinkdropFactoryERC721 {
 
