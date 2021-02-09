@@ -74,11 +74,27 @@ contract Referral is Ownable {
         address LINKDROP_MASTER = address(linkdropMaster);
         linkdropMasters.push(LINKDROP_MASTER);
 
+        /// LinkdropMaster should be able to add new signing keys
+        //linkdropMaster.addSigner(address _linkdropSigner);
+
         /// Creates new link key and verifies its signature
         linkdropMaster.verifyLinkdropSignerSignature(_weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _signature);
+    }
+
+    /**
+     * @notice - Verification process for a referral link (after a referral link is used for a new user)
+     */
+    function verifyReferralLink(
+        LinkdropMastercopy _linkdropMaster,
+        address _linkId,
+        address _receiver,
+        bytes memory _signature
+    ) public returns (bool) {
+        /// Set a deployed-LinkdropMaster contract
+        LinkdropMastercopy linkdropMaster = LinkdropMastercopy(_linkdropMaster);
 
         /// Signs receiver address with link key and verifies this signature onchain
-
+        linkdropMaster.verifyReceiverSignature(_linkId, _receiver, _signature);        
     }
 
 }
