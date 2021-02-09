@@ -62,8 +62,6 @@ contract Referral is Ownable {
      * @return True if signed with linkdrop signer's private key
      */
     function createReferralLink(
-        address memberAddress, 
-        ReferralCreditType referralCreditType,
         uint _weiAmount,
         address _tokenAddress,
         uint _tokenAmount,
