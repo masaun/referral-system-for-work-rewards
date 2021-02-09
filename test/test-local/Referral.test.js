@@ -10,9 +10,9 @@ const Referral = artifacts.require("Referral");
 
 
 /***
- * @dev - Execution COMMAND: $ truffle test ./test/test-local/StakeDelegation.test.js
+ * @dev - Execution COMMAND: $ truffle test ./test/test-local/Referral.test.js
  **/
-contract("StakeDelegation", function(accounts) {
+contract("Referral", function(accounts) {
     /// Acccounts
     let deployer = accounts[0];
     let user1 = accounts[1];
