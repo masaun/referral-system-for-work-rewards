@@ -27,7 +27,8 @@ contract Referral is Ownable {
     uint referralCreditRatioForEmployeeMember = 100 * 1e18;        /// 100%
     uint referralCreditRatioForCoalitionOrganization = 15 * 1e18;  /// 15%
 
-    address[] linkdropMasters;  /// All deployed LinkdropMaster contract address are assigned into here
+    address[] linkdropMasters;   /// All deployed-LinkdropMaster contract address are assigned into here
+    address[] linkdropFactories; /// All deployed-LinkdropFactory contract address are assigned into here
 
     MemberRegistry public memberRegistry;
 
@@ -79,6 +80,8 @@ contract Referral is Ownable {
         address payable _masterCopy = address(uint160(LINKDROP_MASTER));
         uint _chainId = 1612838146832;  /// [Note]: This chain ID (network ID) is development. In case of development chain ID, I need to replace them every time when migrate
         LinkdropFactory linkdropFactory = new LinkdropFactory(_masterCopy, _chainId);
+        address LINKDROP_FACTORY = address(linkdropFactory);
+        linkdropFactories.push(LINKDROP_FACTORY);
 
         /// LinkdropMaster should be able to add new signing keys
         //linkdropMaster.addSigner(address _linkdropSigner);
