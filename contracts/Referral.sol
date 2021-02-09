@@ -4,6 +4,7 @@ pragma experimental ABIEncoderV2;
 import { Ownable } from "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import { MemberRegistry } from "./MemberRegistry.sol";
 import { LinkdropMastercopy } from "./linkdrop/linkdrop/LinkdropMastercopy.sol";
+import { LinkdropFactory } from "./linkdrop/factory/LinkdropFactory.sol";
 
 
 /**
@@ -74,6 +75,11 @@ contract Referral is Ownable {
         address LINKDROP_MASTER = address(linkdropMaster);
         linkdropMasters.push(LINKDROP_MASTER);
 
+        /// Deploy a new factory (that is associated with a deployed LinkdropMaster contract above)
+        address payable _masterCopy = address(uint160(LINKDROP_MASTER));
+        uint _chainId = 1612838146832;  /// [Note]: This chain ID (network ID) is development. In case of development chain ID, I need to replace them every time when migrate
+        LinkdropFactory linkdropFactory = new LinkdropFactory(_masterCopy, _chainId);
+
         /// LinkdropMaster should be able to add new signing keys
         //linkdropMaster.addSigner(address _linkdropSigner);
 
@@ -97,5 +103,11 @@ contract Referral is Ownable {
         linkdropMaster.verifyReceiverSignature(_linkId, _receiver, _signature);        
     }
 
-
+    /**
+     * @notice - Claim link by a creator of used-referral link (and then, they get tokens as referral rewards)
+     * @notice - Only link that is not expired link can be claimed
+     */
+    // function claimLink() public returns (bool) {
+    //     factory.claim();
+    // }
 }
