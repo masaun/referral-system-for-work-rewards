@@ -1,5 +1,4 @@
-pragma solidity ^0.6.12;
-//pragma solidity ^0.5.6;
+pragma solidity ^0.5.6;
 
 interface ILinkdropCommon {
 
@@ -23,6 +22,8 @@ interface ILinkdropCommon {
     function removeSigner(address _linkdropSigner) external returns (bool);
     function destroy() external;
     function getMasterCopyVersion() external view returns (uint);
-    function () external payable;
+
+    receive() payable external;      /// [Note]: solc-v0.6
+    //function () external payable;  /// [Note]: solc-v0.5
 
 }

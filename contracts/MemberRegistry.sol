@@ -1,4 +1,4 @@
-pragma solidity ^0.6.12;
+pragma solidity ^0.5.16;
 pragma experimental ABIEncoderV2;
 
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
