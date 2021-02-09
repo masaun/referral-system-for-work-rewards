@@ -23,7 +23,7 @@ interface ILinkdropCommon {
     function destroy() external;
     function getMasterCopyVersion() external view returns (uint);
 
-    receive() payable external;      /// [Note]: solc-v0.6
-    //function () external payable;  /// [Note]: solc-v0.5
+    //receive() payable external;    /// [Note]: solc-v0.6
+    function () external payable;    /// [Note]: solc-v0.5
 
 }
