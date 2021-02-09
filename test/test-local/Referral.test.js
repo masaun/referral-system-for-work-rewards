@@ -48,4 +48,12 @@ contract("Referral", function(accounts) {
         });
     });
 
+    describe("Grant a referral credit", () => {
+        it("should grant a referral credit", async () => {
+            const memberAddress = user1;
+            const referralCreditType = 1;
+            txReceipt = await referral.grantReferralCredit(memberAddress, referralCreditType, { from: user1 });
+        });
+    });
+
 });
