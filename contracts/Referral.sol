@@ -3,7 +3,7 @@ pragma experimental ABIEncoderV2;
 
 import { Ownable } from "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import { MemberRegistry } from "./MemberRegistry.sol";
-import { LinkdropERC20 } from "./linkdrop/linkdrop/LinkdropERC20.sol";
+import { LinkdropMastercopy } from "./linkdrop/linkdrop/LinkdropMastercopy.sol";
 
 
 /**
@@ -26,12 +26,12 @@ contract Referral is Ownable {
     uint referralCreditRatioForEmployeeMember = 100 * 1e18;        /// 100%
     uint referralCreditRatioForCoalitionOrganization = 15 * 1e18;  /// 15%
 
-    MemberRegistry public memberRegistry;
-    LinkdropERC20 public linkdropERC20;
+    address[] linkdropMasters;  /// All deployed LinkdropMaster contract address are assigned into here
 
-    constructor(MemberRegistry _memberRegistry, LinkdropERC20 _linkdropERC20) public {
+    MemberRegistry public memberRegistry;
+
+    constructor(MemberRegistry _memberRegistry) public {
         memberRegistry = _memberRegistry;
-        linkdropERC20 = _linkdropERC20;
     }
 
     /**
@@ -48,6 +48,8 @@ contract Referral is Ownable {
 
     /**
      * @notice - Create unique and sharable referral links for each Member who is referring new Members to Opolis
+     * @notice - LinkdropMaster is deployed every time to create a referral link
+     * 
      * @dev Function to verify linkdrop signer's signature
      * @param _weiAmount Amount of wei to be claimed
      * @param _tokenAddress Token address
@@ -67,7 +69,16 @@ contract Referral is Ownable {
         address _linkId,
         bytes memory _signature        
     ) public returns (bool) {
-        linkdropERC20.verifyLinkdropSignerSignature(_weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _signature);
+        /// Deploy a new LinkdropMaster contract (evert time when a new referral link is created)
+        LinkdropMastercopy linkdropMaster = new LinkdropMastercopy();
+        address LINKDROP_MASTER = address(linkdropMaster);
+        linkdropMasters.push(LINKDROP_MASTER);
+
+        /// Creates new link key and verifies its signature
+        linkdropMaster.verifyLinkdropSignerSignature(_weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _signature);
+
+        /// Signs receiver address with link key and verifies this signature onchain
+
     }
 
 }
