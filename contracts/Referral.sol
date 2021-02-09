@@ -97,7 +97,7 @@ contract Referral is Ownable {
         bytes memory _signature
     ) public returns (bool) {
         /// Set a deployed-LinkdropMaster contract
-        LinkdropMastercopy linkdropMaster = LinkdropMastercopy(_linkdropMaster);
+        LinkdropMastercopy linkdropMaster = _linkdropMaster;
 
         /// Signs receiver address with link key and verifies this signature onchain
         linkdropMaster.verifyReceiverSignature(_linkId, _receiver, _signature);        
@@ -105,9 +105,32 @@ contract Referral is Ownable {
 
     /**
      * @notice - Claim link by a creator of used-referral link (and then, they get tokens as referral rewards)
-     * @notice - Only link that is not expired link can be claimed
      */
-    // function claimLink() public returns (bool) {
-    //     factory.claim();
-    // }
+    function claimLink(
+        LinkdropFactory _linkdropFactory,
+        uint _weiAmount,
+        address _tokenAddress,
+        uint _tokenAmount,
+        uint _expiration,
+        address _linkId,
+        address payable _linkdropMaster,
+        uint _campaignId,
+        bytes memory _linkdropSignerSignature,
+        address payable _receiver,
+        bytes memory _receiverSignature
+    ) public returns (bool) {
+        LinkdropFactory linkdropFactory = _linkdropFactory;
+
+        /// [Note]: Only link that is not expired link can be claimed
+        linkdropFactory.claim(_weiAmount, 
+                              _tokenAddress,
+                              _tokenAmount, 
+                              _expiration, 
+                              _linkId, 
+                              _linkdropMaster, 
+                              _campaignId, 
+                              _linkdropSignerSignature, 
+                              _receiver, 
+                              _receiverSignature);
+    }
 }
