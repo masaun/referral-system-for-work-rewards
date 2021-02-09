@@ -2,8 +2,8 @@ pragma solidity ^0.5.16;
 pragma experimental ABIEncoderV2;
 
 import { Ownable } from "openzeppelin-solidity/contracts/ownership/Ownable.sol";
-
 import { MemberRegistry } from "./MemberRegistry.sol";
+import { LinkdropERC20 } from "./linkdrop/linkdrop/LinkdropERC20.sol";
 
 
 /**
@@ -27,9 +27,11 @@ contract Referral is Ownable {
     uint referralCreditRatioForCoalitionOrganization = 15 * 1e18;  /// 15%
 
     MemberRegistry public memberRegistry;
+    LinkdropERC20 public linkdropERC20;
 
-    constructor(MemberRegistry _memberRegistry) public {
+    constructor(MemberRegistry _memberRegistry, LinkdropERC20 _linkdropERC20) public {
         memberRegistry = _memberRegistry;
+        linkdropERC20 = _linkdropERC20;
     }
 
     function grantReferralCredit(address memberAddress, ReferralCreditType referralCreditType) public returns (bool) {
