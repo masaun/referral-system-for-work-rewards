@@ -82,7 +82,7 @@ contract Referral is Ownable {
     }
 
     /**
-     * @notice - Verification process for a referral link (after a referral link is used for a new user)
+     * @notice - Verification process for a referral link (after a distributed-referral link is used by a new user)
      */
     function verifyReferralLink(
         LinkdropMastercopy _linkdropMaster,
@@ -96,5 +96,6 @@ contract Referral is Ownable {
         /// Signs receiver address with link key and verifies this signature onchain
         linkdropMaster.verifyReceiverSignature(_linkId, _receiver, _signature);        
     }
+
 
 }
