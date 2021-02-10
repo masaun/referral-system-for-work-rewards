@@ -5,6 +5,7 @@ import { Ownable } from "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import { MemberRegistry } from "./MemberRegistry.sol";
 import { LinkdropMastercopy } from "./linkdrop/linkdrop/LinkdropMastercopy.sol";
 import { LinkdropFactory } from "./linkdrop/factory/LinkdropFactory.sol";
+import { WorkRewardToken } from "./WorkRewardToken.sol";
 
 
 /**
@@ -34,9 +35,11 @@ contract Referral is Ownable {
     event LinkdropFactoryCreated(LinkdropFactory linkdropFactory);
 
     MemberRegistry public memberRegistry;
+    WorkRewardToken public workRewardToken;
 
-    constructor(MemberRegistry _memberRegistry) public {
+    constructor(MemberRegistry _memberRegistry, WorkRewardToken _workRewardToken) public {
         memberRegistry = _memberRegistry;
+        workRewardToken = _workRewardToken;
     }
 
     /**
@@ -146,6 +149,8 @@ contract Referral is Ownable {
         bytes memory _receiverSignature
     ) public returns (bool) {
         LinkdropFactory linkdropFactory = _linkdropFactory;
+
+        workRewardToken.approve(address(linkdropFactory), _tokenAmount);
 
         /// Check parameters of the claimed-link in advance
         bool result = linkdropFactory.checkClaimParams(_weiAmount, 

@@ -51,11 +51,6 @@ contract("Referral", function(accounts) {
             MEMBER_REGISTRY = memberRegistry.address;
         });
 
-        it("Deploy the Referral contract instance", async () => {
-            referral = await Referral.new(MEMBER_REGISTRY, { from: deployer });
-            REFERRAL = referral.address;
-        });
-
         it("Deploy the WorkRewardToken contract instance", async () => {
             workRewardToken = await WorkRewardToken.new({ from: deployer });
             WORK_REWARD_TOKEN = workRewardToken.address;
@@ -64,6 +59,11 @@ contract("Referral", function(accounts) {
         it("1000 $WORK should be transferred into user1 wallet address", async () => {
             const amount = web3.utils.toWei('1000', 'ether');
             let txReceipt = workRewardToken.transfer(user1, amount);
+        });
+
+        it("Deploy the Referral contract instance", async () => {
+            referral = await Referral.new(MEMBER_REGISTRY, WORK_REWARD_TOKEN, { from: deployer });
+            REFERRAL = referral.address;
         });
     });
 
@@ -125,6 +125,10 @@ contract("Referral", function(accounts) {
             const _linkdropSignerSignature = "0x7465737400000000000000000000000000000000000000000000000000000000";  /// bytes32 type signature
             const _receiver = user2;
             const _receiverSignature = "0x5161587200000000000000000000000000000000000000000000000000000000";  /// bytes32 type signature
+
+            // Approving tokens from linkdropMaster to Linkdrop Contract
+            await workRewardToken.approve(REFERRAL, _tokenAmount)
+
             txReceipt = await referral.claimLink(_linkdropFactory, _weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _linkdropMaster, _campaignId, _linkdropSignerSignature, _receiver, _receiverSignature, { from: user2 });
         });
 
