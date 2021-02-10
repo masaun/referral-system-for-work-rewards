@@ -91,6 +91,14 @@ contract("Referral", function(accounts) {
 
             LINKDROP_MASTER_1 = events[0].returnValues.linkdropMaster;
         });
+
+        it("A new referral link should be verified", async () => {
+            const _linkId = user1;
+            const _receiver = user2;
+            const _signature = "0x5161587200000000000000000000000000000000000000000000000000000000";  /// bytes32 type signature
+            txReceipt = await referral.verifyReferralLink(LINKDROP_MASTER_1, _linkId, _receiver, _signature, { from: user1 });
+        });
+
     });
 
 });
