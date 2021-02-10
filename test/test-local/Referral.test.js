@@ -35,6 +35,10 @@ contract("Referral", function(accounts) {
     let LINKDROP_MASTER_2;
     let LINKDROP_MASTER_3;
 
+    let LINKDROP_FACTORY_1;
+    let LINKDROP_FACTORY_2;
+    let LINKDROP_FACTORY_3;
+
     describe("Check state in advance", () => {
         it("Check all accounts", async () => {
             console.log('\n=== accounts ===\n', accounts, '\n========================\n');
@@ -82,21 +86,46 @@ contract("Referral", function(accounts) {
             txReceipt = await referral.createReferralLink(_weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _signature, { from: user1 });
 
             /// [Note]: Retrieve an event log via web3.js v1.0.0
-            let events = await referral.getPastEvents('LinkdropMasterCreated', {
+            let eventOfLinkdropMasterCreated = await referral.getPastEvents('LinkdropMasterCreated', {
                 filter: {},  /// [Note]: If "index" is used for some event property, index number is specified
                 fromBlock: 0,
                 toBlock: 'latest'
             });
-            console.log("\n=== Event log of LinkdropMasterCreated ===", events[0].returnValues);
 
-            LINKDROP_MASTER_1 = events[0].returnValues.linkdropMaster;
+            let eventOfLinkdropFactoryCreated = await referral.getPastEvents('LinkdropFactoryCreated', {
+                filter: {},  /// [Note]: If "index" is used for some event property, index number is specified
+                fromBlock: 0,
+                toBlock: 'latest'
+            });
+
+            console.log("\n=== Event log of LinkdropMasterCreated ===", eventOfLinkdropMasterCreated[0].returnValues);
+            console.log("\n=== Event log of LinkdropFactoryCreated ===", eventOfLinkdropFactoryCreated[0].returnValues);
+
+            LINKDROP_MASTER_1 = eventOfLinkdropMasterCreated[0].returnValues.linkdropMaster;
+            LINKDROP_FACTORY_1 = eventOfLinkdropFactoryCreated[0].returnValues.linkdropFactory;
         });
 
         it("A new referral link should be verified", async () => {
+            const _linkdropMaster = LINKDROP_MASTER_1;
             const _linkId = user1;
             const _receiver = user2;
             const _signature = "0x5161587200000000000000000000000000000000000000000000000000000000";  /// bytes32 type signature
-            txReceipt = await referral.verifyReferralLink(LINKDROP_MASTER_1, _linkId, _receiver, _signature, { from: user1 });
+            txReceipt = await referral.verifyReferralLink(_linkdropMaster, _linkId, _receiver, _signature, { from: user1 });
+        });
+
+        it("A claimed-link should be successful", async () => {
+            const _linkdropFactory = LINKDROP_FACTORY_1;
+            const _weiAmount = web3.utils.toWei('5', 'ether');      /// 5 $WORK
+            const _tokenAddress = WORK_REWARD_TOKEN;                /// $WORK token
+            const _tokenAmount = web3.utils.toWei('100', 'ether');  /// 100 $WORK
+            const _expiration = await time.latest();                /// The latest timestamp
+            const _linkId = user1;
+            const _linkdropMaster = LINKDROP_MASTER_1;
+            const _campaignId = 0;
+            const _linkdropSignerSignature = "0x7465737400000000000000000000000000000000000000000000000000000000";  /// bytes32 type signature
+            const _receiver = user2;
+            const _receiverSignature = "0x5161587200000000000000000000000000000000000000000000000000000000";  /// bytes32 type signature
+            txReceipt = await referral.claimLink(_linkdropFactory, _weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _linkdropMaster, _campaignId, _linkdropSignerSignature, _receiver, _receiverSignature, { from: user2 });
         });
 
     });

@@ -31,6 +31,7 @@ contract Referral is Ownable {
     address[] public linkdropFactories; /// All deployed-LinkdropFactory contract address are assigned into here
 
     event LinkdropMasterCreated(LinkdropMastercopy linkdropMaster);
+    event LinkdropFactoryCreated(LinkdropFactory linkdropFactory);
 
     MemberRegistry public memberRegistry;
 
@@ -90,6 +91,7 @@ contract Referral is Ownable {
         linkdropMaster.verifyLinkdropSignerSignature(_weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _signature);
 
         emit LinkdropMasterCreated(linkdropMaster);
+        emit LinkdropFactoryCreated(linkdropFactory);
     }
 
     /**
