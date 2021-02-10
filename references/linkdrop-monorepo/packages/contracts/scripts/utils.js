@@ -93,7 +93,7 @@ export const createLink = async (
   )
   return {
     linkKey, // link's ephemeral private key
-    linkId, // address corresponding to link key
+    linkId,  // address corresponding to link key
     linkdropSignerSignature // signed by linkdrop verifier
   }
 }

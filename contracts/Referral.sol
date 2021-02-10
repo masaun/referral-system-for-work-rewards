@@ -5,6 +5,7 @@ import { Ownable } from "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import { MemberRegistry } from "./MemberRegistry.sol";
 import { LinkdropMastercopy } from "./linkdrop/linkdrop/LinkdropMastercopy.sol";
 import { LinkdropFactory } from "./linkdrop/factory/LinkdropFactory.sol";
+import { WorkRewardToken } from "./WorkRewardToken.sol";
 
 
 /**
@@ -30,10 +31,15 @@ contract Referral is Ownable {
     address[] public linkdropMasters;   /// All deployed-LinkdropMaster contract address are assigned into here
     address[] public linkdropFactories; /// All deployed-LinkdropFactory contract address are assigned into here
 
-    MemberRegistry public memberRegistry;
+    event LinkdropMasterCreated(LinkdropMastercopy linkdropMaster);
+    event LinkdropFactoryCreated(LinkdropFactory linkdropFactory);
 
-    constructor(MemberRegistry _memberRegistry) public {
+    MemberRegistry public memberRegistry;
+    WorkRewardToken public workRewardToken;
+
+    constructor(MemberRegistry _memberRegistry, WorkRewardToken _workRewardToken) public {
         memberRegistry = _memberRegistry;
+        workRewardToken = _workRewardToken;
     }
 
     /**
@@ -62,8 +68,6 @@ contract Referral is Ownable {
      * @return True if signed with linkdrop signer's private key
      */
     function createReferralLink(
-        address memberAddress, 
-        ReferralCreditType referralCreditType,
         uint _weiAmount,
         address _tokenAddress,
         uint _tokenAmount,
@@ -88,6 +92,9 @@ contract Referral is Ownable {
 
         /// Creates new link key and verifies its signature
         linkdropMaster.verifyLinkdropSignerSignature(_weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _signature);
+
+        emit LinkdropMasterCreated(linkdropMaster);
+        emit LinkdropFactoryCreated(linkdropFactory);
     }
 
     /**
@@ -142,6 +149,8 @@ contract Referral is Ownable {
         bytes memory _receiverSignature
     ) public returns (bool) {
         LinkdropFactory linkdropFactory = _linkdropFactory;
+
+        workRewardToken.approve(address(linkdropFactory), _tokenAmount);
 
         /// Check parameters of the claimed-link in advance
         bool result = linkdropFactory.checkClaimParams(_weiAmount, 

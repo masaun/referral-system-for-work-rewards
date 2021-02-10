@@ -7,7 +7,7 @@
   },
   "scripts": {
     "test": "truffle test ./test/test-local/*",
-    "test:delegation": "truffle test ./test/test-local/StakeDelegation.test.js",
+    "test:referral": "truffle test ./test/test-local/Referral.test.js",
     "compile:local": "truffle compile --reset --network local",
     "migrate:local": "truffle migrate --reset --network local",
     "start-blank": "rm -rf client/src && cp -rf barebones/src client/"
@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "openzeppelin-solidity": "^2.2.0",
+    "@openzeppelin/test-helpers": "^0.5.10",
     "@truffle/hdwallet-provider": "^1.2.0",
     "dotenv": "^8.2.0",
     "eth-block-tracker": "^4.4.3"

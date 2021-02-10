@@ -4,7 +4,7 @@ pragma experimental ABIEncoderV2;
 import { Ownable } from "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 //import { IERC20 } from "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 import { SafeMath } from "openzeppelin-solidity/contracts/math/SafeMath.sol";
-
+import { MemberRegistry } from "./MemberRegistry.sol";
 import { WorkRewardToken } from "./WorkRewardToken.sol";
 
 
@@ -31,13 +31,11 @@ contract PayrollMining is Ownable {
     uint256 public lastMinedBlock;             /// Last block number that $WORK distribution occured.
     uint256 public lastPeriodicPayrollVolume;  /// Periodic payroll volume in the last block
 
-    address[] employeeMembers;   /// Employee Members
-    address[] coalitionMembers;  /// Coalition Members
-    address[] stakers;           /// Stakers
-
+    MemberRegistry public memberRegistry;
     WorkRewardToken public workRewardToken;
     
-    constructor(WorkRewardToken _workRewardToken) public {
+    constructor(MemberRegistry _memberRegistry, WorkRewardToken _workRewardToken) public {
+        memberRegistry = _memberRegistry;
         workRewardToken = _workRewardToken;
 
         workPerBlock = 5000000 * 1e18;  /// 5M $WORK Rewards are issued per “Payroll Mining Block”
@@ -91,19 +89,13 @@ contract PayrollMining is Ownable {
      */
     function _distributeWorkRewards() internal returns (bool) {
         /// [Note]: Assuming that all receivers are received same $WORK amount, distribution below is executed
-        uint totalNumberOfReceivers = employeeMembers.length.add(coalitionMembers.length).add(stakers.length);
+        address[] memory allMembers;
+        uint totalNumberOfReceivers = memberRegistry.getAllMembers().length;
         uint receivedWorkAmountPerReceiver = workPerBlock.div(totalNumberOfReceivers);
 
-        for (uint e=0; e < employeeMembers.length; e++) {
-            workRewardToken.transfer(employeeMembers[e], receivedWorkAmountPerReceiver);
-        }
-
-        for (uint c=0; c < coalitionMembers.length; c++) {
-            workRewardToken.transfer(coalitionMembers[c], receivedWorkAmountPerReceiver);
-        }
-
-        for (uint s=0; s < stakers.length; s++) {
-            workRewardToken.transfer(stakers[s], receivedWorkAmountPerReceiver);
+        for (uint r=0; r < totalNumberOfReceivers; r++) {
+            address memberAddress = memberRegistry.getAllMembers()[r].memberAddress;
+            workRewardToken.transfer(memberAddress, receivedWorkAmountPerReceiver);
         }
     }  
 
