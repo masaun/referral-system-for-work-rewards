@@ -8,6 +8,7 @@
   "scripts": {
     "test": "truffle test ./test/test-local/*",
     "test:referral": "truffle test ./test/test-local/Referral.test.js",
+    "test:payroll_mining": "truffle test ./test/test-local/PayrollMining.test.js",
     "compile:local": "truffle compile --reset --network local",
     "migrate:local": "truffle migrate --reset --network local",
     "start-blank": "rm -rf client/src && cp -rf barebones/src client/"
