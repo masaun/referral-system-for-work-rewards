@@ -31,10 +31,6 @@ contract PayrollMining is Ownable {
     uint256 public lastMinedBlock;             /// Last block number that $WORK distribution occured.
     uint256 public lastPeriodicPayrollVolume;  /// Periodic payroll volume in the last block
 
-    address[] employeeMembers;   /// Employee Members
-    address[] coalitionMembers;  /// Coalition Members
-    address[] stakers;           /// Stakers
-
     MemberRegistry public memberRegistry;
     WorkRewardToken public workRewardToken;
     
