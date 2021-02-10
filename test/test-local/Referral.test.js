@@ -83,7 +83,7 @@ contract("Referral", function(accounts) {
             const _expiration = await time.latest();                /// The latest timestamp
             const _linkId = user1;
             const _signature = "0x7465737400000000000000000000000000000000000000000000000000000000";  /// bytes32 type signature
-            txReceipt = await referral.createReferralLink(_weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _signature, { from: user1 });
+            let txReceipt = await referral.createReferralLink(_weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _signature, { from: user1 });
 
             /// [Note]: Retrieve an event log via web3.js v1.0.0
             let eventOfLinkdropMasterCreated = await referral.getPastEvents('LinkdropMasterCreated', {
@@ -110,7 +110,7 @@ contract("Referral", function(accounts) {
             const _linkId = user1;
             const _receiver = user2;
             const _signature = "0x5161587200000000000000000000000000000000000000000000000000000000";  /// bytes32 type signature
-            txReceipt = await referral.verifyReferralLink(_linkdropMaster, _linkId, _receiver, _signature, { from: user1 });
+            let txReceipt = await referral.verifyReferralLink(_linkdropMaster, _linkId, _receiver, _signature, { from: user1 });
         });
 
         it("A claimed-link should be successful", async () => {
@@ -129,7 +129,7 @@ contract("Referral", function(accounts) {
             // Approving tokens from linkdropMaster to Linkdrop Contract
             await workRewardToken.approve(REFERRAL, _tokenAmount)
 
-            txReceipt = await referral.claimLink(_linkdropFactory, _weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _linkdropMaster, _campaignId, _linkdropSignerSignature, _receiver, _receiverSignature, { from: user2 });
+            let txReceipt = await referral.claimLink(_linkdropFactory, _weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _linkdropMaster, _campaignId, _linkdropSignerSignature, _receiver, _receiverSignature, { from: user2 });
         });
 
     });

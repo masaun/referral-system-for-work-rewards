@@ -59,4 +59,12 @@ contract("PayrollMining", function(accounts) {
         });
     });
 
+
+    describe("Payroll Mining", () => {
+        it("Update 'Payroll Mining Block' when specified-condition is fulfilled.", async () => {
+            /// [Todo]:
+            let txReceipt = payrollMining.updateBlock({ from: deployer });
+        });     
+    });
+
 });
