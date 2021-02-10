@@ -31,6 +31,10 @@ contract("Referral", function(accounts) {
     let MEMBER_REGISTRY;
     let WORK_REWARD_TOKEN;
 
+    let LINKDROP_MASTER_1;
+    let LINKDROP_MASTER_2;
+    let LINKDROP_MASTER_3;
+
     describe("Check state in advance", () => {
         it("Check all accounts", async () => {
             console.log('\n=== accounts ===\n', accounts, '\n========================\n');
@@ -68,7 +72,7 @@ contract("Referral", function(accounts) {
     });
 
     describe("Referral process", () => {
-        it("should create a new referral link", async () => {
+        it("A new referral link should be created", async () => {
             const _weiAmount = web3.utils.toWei('5', 'ether');      /// 5 $WORK
             const _tokenAddress = WORK_REWARD_TOKEN;                /// $WORK token
             const _tokenAmount = web3.utils.toWei('100', 'ether');  /// 100 $WORK
@@ -76,6 +80,16 @@ contract("Referral", function(accounts) {
             const _linkId = user1;
             const _signature = "0x7465737400000000000000000000000000000000000000000000000000000000";  /// bytes32 type signature
             txReceipt = await referral.createReferralLink(_weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _signature, { from: user1 });
+
+            /// [Note]: Retrieve an event log via web3.js v1.0.0
+            let events = await referral.getPastEvents('LinkdropMasterCreated', {
+                filter: {},  /// [Note]: If "index" is used for some event property, index number is specified
+                fromBlock: 0,
+                toBlock: 'latest'
+            });
+            console.log("\n=== Event log of LinkdropMasterCreated ===", events[0].returnValues);
+
+            LINKDROP_MASTER_1 = events[0].returnValues.linkdropMaster;
         });
     });
 
