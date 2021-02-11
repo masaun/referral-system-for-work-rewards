@@ -40,10 +40,11 @@ contract MemberRegistry is Ownable {
     /**
      * @notice - Test method that assuming a member consume some service on Opolis platform
      */
-    function consumeSomeService(address _Member, MemberType _memberType, address _referrerMember) public returns (bool) {
+    function consumeSomeService(address _member) public returns (bool) {
+        /// Identify member's index
         uint memberIndex;
         for (uint i=0; i < memberAddresses.length; i++) {
-            if (memberAddresses[i] == _Member) {
+            if (memberAddresses[i] == _member) {
                 memberIndex = i;
             }
         }

@@ -84,7 +84,12 @@ contract("PayrollMining", function(accounts) {
         });
     });
 
-    describe("Payroll Mining", () => {
+    describe("Payroll Block Mining", () => {
+        it("A referred-member consume some service on Opolis platform", async () => {
+            const _member = user1;
+            let txReceipt = await memberRegistry.consumeSomeService(_member, { from: user1 });
+        });
+        
         it("Update 'Payroll Mining Block' when specified-condition is fulfilled.", async () => {
             /// [Todo]:
             const latestPeriodicPayrollVolume = web3.utils.toWei('10000', 'ether');  /// 10000 $WORK
