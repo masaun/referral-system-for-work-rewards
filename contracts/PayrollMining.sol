@@ -28,8 +28,8 @@ contract PayrollMining is Ownable {
     uint256 public endBlock;            /// The block number at which $WORK distribution ends.
     uint256 public totalAllocPoint = 0; /// Total allocation poitns. Must be the sum of all allocation points in all pools.
 
-    uint256 public lastMinedBlock;             /// Last block number that $WORK distribution occured.
-    uint256 public lastPeriodicPayrollVolume;  /// Periodic payroll volume in the last block
+    uint256 public lastMinedBlock;               /// Last block number that $WORK distribution occured.
+    //uint256 public lastPeriodicPayrollVolume;  /// Periodic payroll volume in the last block
 
     MemberRegistry public memberRegistry;
     WorkRewardToken public workRewardToken;
@@ -46,7 +46,7 @@ contract PayrollMining is Ownable {
      * @notice - Update "Payroll Mining Block" when specified-condition is fulfilled.
      * @notice - The condition is that the increments of periodic payroll volume is greater than $50K or 5%
      */
-    function updateBlock() public onlyOwner returns (bool) {
+    function updateBlock(uint latestPeriodicPayrollVolume) public onlyOwner returns (bool) {
         uint256 latestMinedBlock = block.number;
         uint256 latestPeriodicPayrollVolume = _computeLatestPeriodicPayrollVolume();  /// Periodic payroll volume in the latest block
 
