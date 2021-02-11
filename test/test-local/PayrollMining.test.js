@@ -48,22 +48,29 @@ contract("PayrollMining", function(accounts) {
             WORK_REWARD_TOKEN = workRewardToken.address;
         });
 
-        it("1000 $WORK should be transferred into user1 wallet address", async () => {
-            const amount = web3.utils.toWei('1000', 'ether');
-            let txReceipt = workRewardToken.transfer(user1, amount);
-        });
-
         it("Deploy the PayrollMining contract instance", async () => {
             payrollMining = await PayrollMining.new(MEMBER_REGISTRY, WORK_REWARD_TOKEN, { from: deployer });
             PAYROLL_MINING = payrollMining.address;
         });
     });
 
+    describe("Preparation for testing", () => {
+        it("1000 $WORK should be transferred into user1 wallet address", async () => {
+            const amount = web3.utils.toWei('1000', 'ether');
+            let txReceipt = await workRewardToken.transfer(user1, amount);
+        });
+
+        it("3 users (wallet addresses) register as a member", async () => {
+            let txReceipt1 = await memberRegistry.registerMember(user1, 0);  /// [Note]: MemberType is "Employee"
+            let txReceipt2 = await memberRegistry.registerMember(user2, 1);  /// [Note]: MemberType is "Coalition"
+            let txReceipt3 = await memberRegistry.registerMember(user3, 2);  /// [Note]: MemberType is "Staker"
+        });
+    });
 
     describe("Payroll Mining", () => {
         it("Update 'Payroll Mining Block' when specified-condition is fulfilled.", async () => {
             /// [Todo]:
-            let txReceipt = payrollMining.updateBlock({ from: deployer });
+            let txReceipt = await payrollMining.updateBlock({ from: deployer });
         });     
     });
 
