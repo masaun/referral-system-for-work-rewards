@@ -46,7 +46,7 @@ contract PayrollMining is Ownable {
      * @notice - Update "Payroll Mining Block" when specified-condition is fulfilled.
      * @notice - The condition is that the increments of periodic payroll volume is greater than $50K or 5%
      */
-    function updateBlock() public returns (bool) {
+    function updateBlock() public onlyOwner returns (bool) {
         uint256 latestMinedBlock = block.number;
         uint256 latestPeriodicPayrollVolume = _computeLatestPeriodicPayrollVolume();  /// Periodic payroll volume in the latest block
 
