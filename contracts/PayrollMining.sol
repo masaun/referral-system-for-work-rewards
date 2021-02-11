@@ -28,7 +28,7 @@ contract PayrollMining is Ownable {
     uint256 public endBlock;            /// The block number at which $WORK distribution ends.
     uint256 public totalAllocPoint = 0; /// Total allocation poitns. Must be the sum of all allocation points in all pools.
 
-    uint256 public lastMinedBlock;               /// Last block number that $WORK distribution occured.
+    uint256 public lastMinedBlock;             /// Last block number that $WORK distribution occured.
     uint256 public lastPeriodicPayrollVolume;  /// Periodic payroll volume in the last block
 
     MemberRegistry public memberRegistry;

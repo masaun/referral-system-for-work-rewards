@@ -14,6 +14,7 @@ contract MemberRegistry is Ownable {
     struct Member {  /// [Key]: index number of array
         address memberAddress;
         MemberType memberType;
+        address referringMemberAddress;  /// who is existing member
     }
     Member[] members;
 
@@ -22,10 +23,11 @@ contract MemberRegistry is Ownable {
     /**
      * @notice - Register a new member
      */
-    function registerMember(address _memberAddress, MemberType _memberType) public returns (bool) {
+    function registerMember(address _newMember, MemberType _memberType, address _referringMember) public returns (bool) {
         Member memory member = Member({
-            memberAddress: _memberAddress,
-            memberType: _memberType
+            memberAddress: _newMember,
+            memberType: _memberType,
+            referringMemberAddress: _referringMember
         });
         members.push(member);
     }

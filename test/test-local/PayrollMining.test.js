@@ -20,6 +20,9 @@ contract("PayrollMining", function(accounts) {
     let user1 = accounts[1];
     let user2 = accounts[2];
     let user3 = accounts[3];
+    let user4 = accounts[4];
+    let user5 = accounts[5];
+    let user6 = accounts[6];
 
     /// Global Tokenization contract instance
     let payrollMining;
@@ -63,9 +66,9 @@ contract("PayrollMining", function(accounts) {
         });
 
         it("3 users (wallet addresses) register as a member", async () => {
-            let txReceipt1 = await memberRegistry.registerMember(user1, 0, { from: user1 });  /// [Note]: MemberType is "Employee"
-            let txReceipt2 = await memberRegistry.registerMember(user2, 1, { from: user2 });  /// [Note]: MemberType is "Coalition"
-            let txReceipt3 = await memberRegistry.registerMember(user3, 2, { from: user3 });  /// [Note]: MemberType is "Staker"
+            let txReceipt1 = await memberRegistry.registerMember(user1, 0, user4, { from: user1 });  /// [Note]: MemberType is "Employee"
+            let txReceipt2 = await memberRegistry.registerMember(user2, 1, user5, { from: user2 });  /// [Note]: MemberType is "Coalition"
+            let txReceipt3 = await memberRegistry.registerMember(user3, 2, user6, { from: user3 });  /// [Note]: MemberType is "Staker"
         });
 
         it("Number of all members registered should be 3", async () => {
