@@ -14,29 +14,51 @@ contract MemberRegistry is Ownable {
     struct Member {  /// [Key]: index number of array
         address memberAddress;
         MemberType memberType;
+        address referrerMemberAddress;  /// A member who is existing member and refer
+        bool consumeService;            /// A property in order to judge whether a member consume some service on Opolis or not
     }
     Member[] members;
+
+    address[] memberAddresses;
 
     constructor() public {}
 
     /**
      * @notice - Register a new member
      */
-    function registerMember(address _memberAddress, MemberType _memberType) public returns (bool) {
+    function registerMember(address _newMember, MemberType _memberType, address _referrerMember) public returns (bool) {
         Member memory member = Member({
-            memberAddress: _memberAddress,
-            memberType: _memberType
+            memberAddress: _newMember,
+            memberType: _memberType,
+            referrerMemberAddress: _referrerMember,
+            consumeService: false
         });
         members.push(member);
+        memberAddresses.push(_newMember);
     }
+
+    /**
+     * @notice - Test method that assuming a member consume some service on Opolis platform
+     */
+    function consumeSomeService(address _Member, MemberType _memberType, address _referrerMember) public returns (bool) {
+        uint memberIndex;
+        for (uint i=0; i < memberAddresses.length; i++) {
+            if (memberAddresses[i] == _Member) {
+                memberIndex = i;
+            }
+        }
+
+        /// Update only a property of "consumeService"
+        Member storage member = members[memberIndex];    
+        member.consumeService = true;
+    }    
 
 
     ///-------------------------------
     /// Getter methods
     ///-------------------------------
-    function getAllMembers() public returns (Member[] memory _members) {
+    function getAllMembers() public view returns (Member[] memory _members) {
         return members;
     }
-
     
 }
