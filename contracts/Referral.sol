@@ -123,7 +123,7 @@ contract Referral is Ownable {
     /**
      * @notice - Claim link by a creator of used-referral link (and then, they get tokens as referral rewards)
      *
-     * @dev Function to claim ETH and/or ERC20 tokens
+     * @dev Function to claim ETH and/or ERC20 tokens (Note: On the Opolis, claimer doesn't receive ETH or ERC20 tokens)
      * @param _weiAmount Amount of wei to be claimed
      * @param _tokenAddress Token address
      * @param _tokenAmount Amount of tokens to be claimed (in atomic value)
