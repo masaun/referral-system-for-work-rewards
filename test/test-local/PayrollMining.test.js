@@ -55,15 +55,17 @@ contract("PayrollMining", function(accounts) {
     });
 
     describe("Preparation for testing", () => {
-        it("1000 $WORK should be transferred into user1 wallet address", async () => {
+        it("1000 $WORK should be transferred into 3 users (each wallet addresses)", async () => {
             const amount = web3.utils.toWei('1000', 'ether');
-            let txReceipt = await workRewardToken.transfer(user1, amount);
+            let txReceipt1 = await workRewardToken.transfer(user1, amount, { from: deployer });
+            let txReceipt2 = await workRewardToken.transfer(user2, amount, { from: deployer });
+            let txReceipt3 = await workRewardToken.transfer(user3, amount, { from: deployer });
         });
 
         it("3 users (wallet addresses) register as a member", async () => {
-            let txReceipt1 = await memberRegistry.registerMember(user1, 0);  /// [Note]: MemberType is "Employee"
-            let txReceipt2 = await memberRegistry.registerMember(user2, 1);  /// [Note]: MemberType is "Coalition"
-            let txReceipt3 = await memberRegistry.registerMember(user3, 2);  /// [Note]: MemberType is "Staker"
+            let txReceipt1 = await memberRegistry.registerMember(user1, 0, { from: user1 });  /// [Note]: MemberType is "Employee"
+            let txReceipt2 = await memberRegistry.registerMember(user2, 1, { from: user2 });  /// [Note]: MemberType is "Coalition"
+            let txReceipt3 = await memberRegistry.registerMember(user3, 2, { from: user3 });  /// [Note]: MemberType is "Staker"
         });
     });
 
