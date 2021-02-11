@@ -15,8 +15,11 @@ contract MemberRegistry is Ownable {
         address memberAddress;
         MemberType memberType;
         address referrerMemberAddress;  /// A member who is existing member and refer
+        bool consumeService;            /// A property in order to judge whether a member consume some service on Opolis or not
     }
     Member[] members;
+
+    address[] memberAddresses;
 
     constructor() public {}
 
@@ -27,10 +30,28 @@ contract MemberRegistry is Ownable {
         Member memory member = Member({
             memberAddress: _newMember,
             memberType: _memberType,
-            referrerMemberAddress: _referrerMember
+            referrerMemberAddress: _referrerMember,
+            consumeService: false
         });
         members.push(member);
+        memberAddresses.push(_newMember);
     }
+
+    /**
+     * @notice - Test method that assuming a member consume some service on Opolis platform
+     */
+    function consumeSomeService(address _Member, MemberType _memberType, address _referrerMember) public returns (bool) {
+        uint memberIndex;
+        for (uint i=0; i < memberAddresses.length; i++) {
+            if (memberAddresses[i] == _Member) {
+                memberIndex = i;
+            }
+        }
+
+        /// Update only a property of "consumeService"
+        Member storage member = members[memberIndex];    
+        member.consumeService = true;
+    }    
 
 
     ///-------------------------------
@@ -39,6 +60,5 @@ contract MemberRegistry is Ownable {
     function getAllMembers() public view returns (Member[] memory _members) {
         return members;
     }
-
     
 }
