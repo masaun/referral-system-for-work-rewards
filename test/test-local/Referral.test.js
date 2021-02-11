@@ -149,11 +149,11 @@ contract("Referral", function(accounts) {
 
         it("Number of all members registered should be 3", async () => {
             let allMembers = await memberRegistry.getAllMembers({ from: deployer });
-            let numberOfAllmembers = allMembers.length;
+            let numberOfAllMembers = allMembers.length;
             console.log('\n=== allMembers ===', allMembers);
-            console.log('\n=== numberOfAllmembers ===', numberOfAllmembers);
+            console.log('\n=== numberOfAllMembers ===', numberOfAllMembers);
             assert.equal(
-                Number(numberOfAllmembers),
+                Number(numberOfAllMembers),
                 3,
                 "Number of all members registered should be 3"
             );
@@ -162,6 +162,7 @@ contract("Referral", function(accounts) {
         it("A referred-member consume some service on Opolis platform", async () => {
             const _member = user1;
             let txReceipt = await memberRegistry.consumeSomeService(_member, { from: user1 });
+            
         });
     });
 
