@@ -72,6 +72,7 @@ contract("PayrollMining", function(accounts) {
     describe("Payroll Mining", () => {
         it("Update 'Payroll Mining Block' when specified-condition is fulfilled.", async () => {
             /// [Todo]:
+            const latestPeriodicPayrollVolume = web3.utils.toWei('10000', 'ether');  /// 10000 $WORK
             let txReceipt = await payrollMining.updateBlock({ from: deployer });
         });     
     });

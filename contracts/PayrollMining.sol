@@ -29,7 +29,7 @@ contract PayrollMining is Ownable {
     uint256 public totalAllocPoint = 0; /// Total allocation poitns. Must be the sum of all allocation points in all pools.
 
     uint256 public lastMinedBlock;               /// Last block number that $WORK distribution occured.
-    //uint256 public lastPeriodicPayrollVolume;  /// Periodic payroll volume in the last block
+    uint256 public lastPeriodicPayrollVolume;  /// Periodic payroll volume in the last block
 
     MemberRegistry public memberRegistry;
     WorkRewardToken public workRewardToken;
@@ -46,12 +46,19 @@ contract PayrollMining is Ownable {
      * @notice - Update "Payroll Mining Block" when specified-condition is fulfilled.
      * @notice - The condition is that the increments of periodic payroll volume is greater than $50K or 5%
      */
-    function updateBlock(uint latestPeriodicPayrollVolume) public onlyOwner returns (bool) {
+    function updateBlock() public onlyOwner returns (bool) {
         uint256 latestMinedBlock = block.number;
         uint256 latestPeriodicPayrollVolume = _computeLatestPeriodicPayrollVolume();  /// Periodic payroll volume in the latest block
 
         uint256 differenceOfVolume = latestPeriodicPayrollVolume.sub(lastPeriodicPayrollVolume);
-        uint256 differenceOfPercentage = differenceOfVolume.div(lastPeriodicPayrollVolume);
+        //uint256 differenceOfPercentage = differenceOfVolume.div(lastPeriodicPayrollVolume);
+        uint256 differenceOfPercentage;
+        if (lastPeriodicPayrollVolume != 0) {
+            differenceOfPercentage = 1;  /// [Note]: To avoid an error of "SafeMath: division by zero."
+        } else if (lastPeriodicPayrollVolume > 0) {
+            differenceOfPercentage = differenceOfVolume.div(lastPeriodicPayrollVolume);
+        }
+
         uint256 FIVE_K_DOLLAR = 50000 * 1e18; /// $50K
         uint256 FIVE_PERCENT = 5 * 1e18;      /// 5%
 
@@ -72,6 +79,7 @@ contract PayrollMining is Ownable {
      * @notice - Every block (every 15 seconds), the latest periodic payroll volume is computed.
      */
     function _computeLatestPeriodicPayrollVolume() internal returns (uint _latestPeriodicPayrollVolume) {
+        /// [Todo]: Add a logic for computing the latest periodic payroll volume.
         uint256 latestPeriodicPayrollVolume;  /// Periodic payroll volume in the latest block
         return latestPeriodicPayrollVolume;
     }
