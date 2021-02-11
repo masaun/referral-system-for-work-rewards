@@ -67,6 +67,18 @@ contract("PayrollMining", function(accounts) {
             let txReceipt2 = await memberRegistry.registerMember(user2, 1, { from: user2 });  /// [Note]: MemberType is "Coalition"
             let txReceipt3 = await memberRegistry.registerMember(user3, 2, { from: user3 });  /// [Note]: MemberType is "Staker"
         });
+
+        it("Number of all members registered should be 3", async () => {
+            let allMembers = await memberRegistry.getAllMembers({ from: deployer });
+            let numberOfAllmembers = allMembers.length;
+            console.log('\n=== allMembers ===', allMembers);
+            console.log('\n=== numberOfAllmembers ===', numberOfAllmembers);
+            assert.equal(
+                Number(numberOfAllmembers),
+                3,
+                "Number of all members registered should be 3"
+            );
+        });
     });
 
     describe("Payroll Mining", () => {

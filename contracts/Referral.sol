@@ -46,6 +46,7 @@ contract Referral is Ownable {
      * @notice - Grant referral credit
      */
     function grantReferralCredit(address memberAddress, ReferralCreditType referralCreditType) public returns (bool) {
+        /// [Todo]: Add a logic in order to assign properly ratio into the "referralCreditRatio"
         uint referralCreditRatio;
         if (referralCreditType == ReferralCreditType.EmployeeMember) {
             referralCreditRatio = referralCreditRatioForEmployeeMember;         /// 100%

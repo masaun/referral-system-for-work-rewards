@@ -34,7 +34,7 @@ contract MemberRegistry is Ownable {
     ///-------------------------------
     /// Getter methods
     ///-------------------------------
-    function getAllMembers() public returns (Member[] memory _members) {
+    function getAllMembers() public view returns (Member[] memory _members) {
         return members;
     }
 

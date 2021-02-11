@@ -60,9 +60,9 @@ contract PayrollMining is Ownable {
         }
 
         uint256 FIFTY_K_DOLLAR = 50000 * 1e18; /// $50K
-        uint256 FIVE_PERCENT = 5 * 1e18;      /// 5%
+        uint256 FIVE_PERCENT = 5 * 1e18;       /// 5%
 
-        /// [Todo]: Condition in order to judge whether the Block is mined or not
+        /// [Todo]: Condition in order to judge whether the Payroll Mining Block is mined or not
         if (differenceOfVolume > FIFTY_K_DOLLAR) {            /// periodic payroll volume is greater than $50K
             _mineBlock();
             _distributeWorkRewards();
