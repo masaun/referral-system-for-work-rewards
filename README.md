@@ -17,7 +17,8 @@
 ***
 
 ## 【Workflow】
--【Diagram / Workflow】：In case an existing employee member refer an employee member
+- 【Diagram / Workflow】：In case an existing employee member refer an employee member  
+https://github.com/masaun/referral-system-for-work-rewards/tree/main/doc  
 ![Screen Shot 2021-02-13 at 01 09 25](https://user-images.githubusercontent.com/19357502/107792279-49782800-6d98-11eb-9d37-70b4c28e4184.png)
 
 &nbsp;
