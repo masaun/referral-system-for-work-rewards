@@ -90,7 +90,7 @@ contract("PayrollMining", function(accounts) {
             let txReceipt = await memberRegistry.consumeSomeService(_member, { from: user1 });
         });
         
-        it("Update 'Payroll Mining Block' when specified-condition is fulfilled.", async () => {
+        it("Update 'Payroll Mining Block' and distribute $WORK rewards into members when specified-condition is fulfilled", async () => {
             /// [Todo]:
             const latestPeriodicPayrollVolume = web3.utils.toWei('10000', 'ether');  /// 10000 $WORK
             let txReceipt = await payrollMining.updateBlock({ from: deployer });

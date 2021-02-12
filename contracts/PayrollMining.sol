@@ -56,7 +56,7 @@ contract PayrollMining is Ownable {
         if (lastPeriodicPayrollVolume != 0) {
             differenceOfPercentage = 1;  /// [Note]: To avoid an error of "SafeMath: division by zero."
         } else if (lastPeriodicPayrollVolume > 0) {
-            differenceOfPercentage = differenceOfVolume.div(lastPeriodicPayrollVolume);
+            differenceOfPercentage = latestPeriodicPayrollVolume.div(lastPeriodicPayrollVolume).div(1e2 * 1e18);
         }
 
         uint256 FIFTY_K_DOLLAR = 50000 * 1e18; /// $50K
