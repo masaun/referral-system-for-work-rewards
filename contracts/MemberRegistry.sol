@@ -49,9 +49,9 @@ contract MemberRegistry is Ownable {
             }
         }
 
-        /// Update only a property of "consumeService"
+        /// Update only a property of "consumePayrollService"
         Member storage member = members[memberIndex];    
-        member.consumeService = true;
+        member.consumePayrollService = true;
     }    
 
 
@@ -85,7 +85,7 @@ contract MemberRegistry is Ownable {
         }
 
         Member memory member = members[memberIndex];
-        return member.consumeService;
+        return member.consumePayrollService;
     }
     
 }
