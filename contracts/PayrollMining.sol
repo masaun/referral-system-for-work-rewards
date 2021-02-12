@@ -15,14 +15,6 @@ import { WorkRewardToken } from "./WorkRewardToken.sol";
 contract PayrollMining is Ownable {
     using SafeMath for uint256;
 
-    // struct PoolInfo {
-    //     IERC20 lpToken;                 // Address of LP token contract.
-    //     uint256 allocPoint;             // How many allocation points assigned to this pool.
-    //     uint256 lastRewardBlock;        // Last block number that $WORK distribution occured.
-    //     uint256 accWorkPerShare;        // Accumulated $WORK per share, times 1e12. See below.
-    // }
-    // PoolInfo[] public poolInfo;         // Info of each pool.
-
     uint256 public workPerBlock;        /// $WORK tokens created per block.
     uint256 public startBlock;          /// The block number at which $WORK distribution starts.
     uint256 public endBlock;            /// The block number at which $WORK distribution ends.
