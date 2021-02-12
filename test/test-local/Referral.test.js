@@ -99,6 +99,12 @@ contract("Referral", function(accounts) {
     });
 
     describe("Referral process", () => {
+        it("A new referral NFT should be minted to user1", async () => {
+            let txReceipt = await referralNFT.mintTo(user1, { from: user1 });
+            const _currentTokenId = await referralNFT.currentTokenId({ from: user1 });
+            console.log('=== _currentTokenId ===', String(_currentTokenId));
+        });
+
         it("A new referral link should be created", async () => {
             const _weiAmount = web3.utils.toWei('5', 'ether');      /// 5 $WORK
             const _nftAddress = REFERRAL_NFT;                       /// Referral NFT token
