@@ -1,22 +1,31 @@
-pragma solidity ^0.5.1;
+pragma solidity ^0.5.16;
 
 import { ERC721Metadata } from "openzeppelin-solidity/contracts/token/ERC721/ERC721Metadata.sol";
+import { SafeMath } from "openzeppelin-solidity/contracts/math/SafeMath.sol";
 
 
 contract ReferralNFT is ERC721Metadata {
+    using SafeMath for uint;
 
-    // Mint 10 NFTs to deployer
-    constructor() public ERC721Metadata ("Referral NFT", "RNFT") {
-        for (uint i = 0; i < 10; i++) {
-            super._mint(msg.sender, i);
-            super._setTokenURI(i, "https://api.myjson.com/bins/1dhwd6");
-        }
+    uint currentTokenId;
 
-        for (uint i = 11; i < 15; i++) {
-            super._mint(address(this), i);
-            super._setTokenURI(i, "https://api.myjson.com/bins/1dhwd6");
-        }
+    constructor() public ERC721Metadata ("Referral NFT", "RNFT") {}
+
+    function mintTo(address to) public returns (bool) {
+        uint newTokenId = getNextTokenId();
+        currentTokenId++;
+        super._mint(to, newTokenId);
+        super._setTokenURI(newTokenId, "https://api.myjson.com/bins/1dhwd6");
     }
     
     function tokenOfOwnerByIndex(address _owner, uint256 _index) external view returns (uint256);
+
+
+    ///---------------------
+    /// Getter methods
+    ///---------------------
+    function getNextTokenId() private view returns (uint _newTokenId) {
+        return currentTokenId.add(1);
+    }
+    
 }
