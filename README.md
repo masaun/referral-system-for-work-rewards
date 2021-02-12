@@ -10,6 +10,7 @@
   - Members receive 15% of the referral credit for referring Coalition Organizations who act as channel partners for referring new Employee Members. 
     - NO multi-level referral credit except for referring Organizations where the referring Member receives 15%) 
   - All members receive $WORK Rewards in perpetuity so long as the referred Member consumes services. 
+  - Linkdrop is used for realizing the referral structure.
 
 &nbsp;
 
