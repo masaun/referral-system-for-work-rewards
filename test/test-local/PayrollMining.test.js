@@ -85,9 +85,9 @@ contract("PayrollMining", function(accounts) {
     });
 
     describe("Payroll Block Mining", () => {
-        it("A referred-member consume some service on Opolis platform", async () => {
+        it("A referred-member consume payroll service on Opolis platform", async () => {
             const _member = user1;
-            let txReceipt = await memberRegistry.consumeSomeService(_member, { from: user1 });
+            let txReceipt = await memberRegistry.consumePayrollService(_member, { from: user1 });
         });
         
         it("Update 'Payroll Mining Block' and distribute $WORK rewards into members when specified-condition is fulfilled", async () => {

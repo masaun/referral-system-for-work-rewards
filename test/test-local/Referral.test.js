@@ -167,16 +167,16 @@ contract("Referral", function(accounts) {
             );
         });
 
-        it("A referred-member should consume some service on Opolis platform so that a referrer member enable to get $WORK rewards", async () => {
+        it("A referred-member should consume payroll service on Opolis platform so that a referrer member enable to get $WORK rewards", async () => {
             const _member = user1;
-            let txReceipt = await memberRegistry.consumeSomeService(_member, { from: user1 });
+            let txReceipt = await memberRegistry.consumePayrollService(_member, { from: user1 });
 
             let _isMemberConsumingService = await memberRegistry.isMemberConsumingService(_member, { from: user1 });
             console.log('\n=== _isMemberConsumingService ===', _isMemberConsumingService);
             assert.equal(
                 _isMemberConsumingService,
                 true,
-                "A referred-member should consume some service on Opolis platform so that a referrer member enable to get $WORK rewards"
+                "A referred-member should consume payroll service on Opolis platform so that a referrer member enable to get $WORK rewards"
             );
         });
 
