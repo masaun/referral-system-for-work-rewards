@@ -40,10 +40,11 @@ contract MemberRegistry is Ownable {
     /**
      * @notice - Test method that assuming a member consume some service on Opolis platform
      */
-    function consumeSomeService(address _Member, MemberType _memberType, address _referrerMember) public returns (bool) {
+    function consumeSomeService(address _member) public returns (bool) {
+        /// Identify member's index
         uint memberIndex;
         for (uint i=0; i < memberAddresses.length; i++) {
-            if (memberAddresses[i] == _Member) {
+            if (memberAddresses[i] == _member) {
                 memberIndex = i;
             }
         }
@@ -59,6 +60,32 @@ contract MemberRegistry is Ownable {
     ///-------------------------------
     function getAllMembers() public view returns (Member[] memory _members) {
         return members;
+    }
+
+    function getMember(address member) public view returns (Member memory _member) {
+        /// Identify member's index
+        uint memberIndex;
+        for (uint i=0; i < memberAddresses.length; i++) {
+            if (memberAddresses[i] == member) {
+                memberIndex = i;
+            }
+        }
+
+        Member memory member = members[memberIndex];
+        return member;
+    }
+
+    function isMemberConsumingService(address member) public view returns (bool _isMemberConsumingService) {
+        /// Identify member's index
+        uint memberIndex;
+        for (uint i=0; i < memberAddresses.length; i++) {
+            if (memberAddresses[i] == member) {
+                memberIndex = i;
+            }
+        }
+
+        Member memory member = members[memberIndex];
+        return member.consumeService;
     }
     
 }

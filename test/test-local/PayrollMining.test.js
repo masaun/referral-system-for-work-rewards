@@ -73,18 +73,23 @@ contract("PayrollMining", function(accounts) {
 
         it("Number of all members registered should be 3", async () => {
             let allMembers = await memberRegistry.getAllMembers({ from: deployer });
-            let numberOfAllmembers = allMembers.length;
+            let numberOfAllMembers = allMembers.length;
             console.log('\n=== allMembers ===', allMembers);
-            console.log('\n=== numberOfAllmembers ===', numberOfAllmembers);
+            console.log('\n=== numberOfAllMembers ===', numberOfAllMembers);
             assert.equal(
-                Number(numberOfAllmembers),
+                Number(numberOfAllMembers),
                 3,
                 "Number of all members registered should be 3"
             );
         });
     });
 
-    describe("Payroll Mining", () => {
+    describe("Payroll Block Mining", () => {
+        it("A referred-member consume some service on Opolis platform", async () => {
+            const _member = user1;
+            let txReceipt = await memberRegistry.consumeSomeService(_member, { from: user1 });
+        });
+        
         it("Update 'Payroll Mining Block' when specified-condition is fulfilled.", async () => {
             /// [Todo]:
             const latestPeriodicPayrollVolume = web3.utils.toWei('10000', 'ether');  /// 10000 $WORK

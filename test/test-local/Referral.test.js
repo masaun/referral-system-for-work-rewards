@@ -20,6 +20,9 @@ contract("Referral", function(accounts) {
     let user1 = accounts[1];
     let user2 = accounts[2];
     let user3 = accounts[3];
+    let user4 = accounts[4];
+    let user5 = accounts[5];
+    let user6 = accounts[6];
 
     /// Global Tokenization contract instance
     let referral;
@@ -56,14 +59,18 @@ contract("Referral", function(accounts) {
             WORK_REWARD_TOKEN = workRewardToken.address;
         });
 
-        it("1000 $WORK should be transferred into user1 wallet address", async () => {
-            const amount = web3.utils.toWei('1000', 'ether');
-            let txReceipt = workRewardToken.transfer(user1, amount);
-        });
-
         it("Deploy the Referral contract instance", async () => {
             referral = await Referral.new(MEMBER_REGISTRY, WORK_REWARD_TOKEN, { from: deployer });
             REFERRAL = referral.address;
+        });
+    });
+
+    describe("Preparation for testing", () => {
+        it("1000 $WORK should be transferred into 3 users (each wallet addresses)", async () => {
+            const amount = web3.utils.toWei('1000', 'ether');
+            let txReceipt1 = await workRewardToken.transfer(user1, amount, { from: deployer });
+            let txReceipt2 = await workRewardToken.transfer(user2, amount, { from: deployer });
+            let txReceipt3 = await workRewardToken.transfer(user3, amount, { from: deployer });
         });
     });
 
@@ -131,7 +138,39 @@ contract("Referral", function(accounts) {
 
             let txReceipt = await referral.claimLink(_linkdropFactory, _weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _linkdropMaster, _campaignId, _linkdropSignerSignature, _receiver, _receiverSignature, { from: user2 });
         });
+    });
 
+    describe("Payroll Block Mining", () => {
+        it("3 users (wallet addresses) register as a member", async () => {
+            let txReceipt1 = await memberRegistry.registerMember(user1, 0, user4, { from: user1 });  /// [Note]: MemberType is "Employee"
+            let txReceipt2 = await memberRegistry.registerMember(user2, 1, user5, { from: user2 });  /// [Note]: MemberType is "Coalition"
+            let txReceipt3 = await memberRegistry.registerMember(user3, 2, user6, { from: user3 });  /// [Note]: MemberType is "Staker"
+        });
+
+        it("Number of all members registered should be 3", async () => {
+            let allMembers = await memberRegistry.getAllMembers({ from: deployer });
+            let numberOfAllMembers = allMembers.length;
+            console.log('\n=== allMembers ===', allMembers);
+            console.log('\n=== numberOfAllMembers ===', numberOfAllMembers);
+            assert.equal(
+                Number(numberOfAllMembers),
+                3,
+                "Number of all members registered should be 3"
+            );
+        });
+
+        it("A referred-member consume some service on Opolis platform", async () => {
+            const _member = user1;
+            let txReceipt = await memberRegistry.consumeSomeService(_member, { from: user1 });
+
+            let _isMemberConsumingService = await memberRegistry.isMemberConsumingService(_member, { from: user1 });
+            console.log('\n=== _isMemberConsumingService ===', _isMemberConsumingService);
+            assert.equal(
+                _isMemberConsumingService,
+                true,
+                "A referred-member should consume some service on Opolis platform so that a referrer member enable to get $WORK rewards"
+            );
+        });
     });
 
 });
