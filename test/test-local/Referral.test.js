@@ -7,6 +7,7 @@ const { time } = require('@openzeppelin/test-helpers');
 
 /// Artifact of smart contracts 
 const Referral = artifacts.require("Referral");
+const PayrollMining = artifacts.require("PayrollMining");
 const MemberRegistry = artifacts.require("MemberRegistry");
 const WorkRewardToken = artifacts.require("WorkRewardToken");
 
@@ -24,13 +25,15 @@ contract("Referral", function(accounts) {
     let user5 = accounts[5];
     let user6 = accounts[6];
 
-    /// Global Tokenization contract instance
+    /// Global contract instance
     let referral;
+    let payrollMining;
     let memberRegistry;
     let workRewardToken;
 
     /// Global variable for each contract addresses
     let REFERRAL;
+    let PAYROLL_MINING;
     let MEMBER_REGISTRY;
     let WORK_REWARD_TOKEN;
 
@@ -57,6 +60,11 @@ contract("Referral", function(accounts) {
         it("Deploy the WorkRewardToken contract instance", async () => {
             workRewardToken = await WorkRewardToken.new({ from: deployer });
             WORK_REWARD_TOKEN = workRewardToken.address;
+        });
+
+        it("Deploy the PayrollMining contract instance", async () => {
+            payrollMining = await PayrollMining.new(MEMBER_REGISTRY, WORK_REWARD_TOKEN, { from: deployer });
+            PAYROLL_MINING = payrollMining.address;
         });
 
         it("Deploy the Referral contract instance", async () => {
@@ -159,7 +167,7 @@ contract("Referral", function(accounts) {
             );
         });
 
-        it("A referred-member consume some service on Opolis platform", async () => {
+        it("A referred-member should consume some service on Opolis platform so that a referrer member enable to get $WORK rewards", async () => {
             const _member = user1;
             let txReceipt = await memberRegistry.consumeSomeService(_member, { from: user1 });
 
@@ -170,6 +178,12 @@ contract("Referral", function(accounts) {
                 true,
                 "A referred-member should consume some service on Opolis platform so that a referrer member enable to get $WORK rewards"
             );
+        });
+
+        it("Update 'Payroll Mining Block' when specified-condition is fulfilled.", async () => {
+            /// [Todo]:
+            const latestPeriodicPayrollVolume = web3.utils.toWei('10000', 'ether');  /// 10000 $WORK
+            let txReceipt = await payrollMining.updateBlock({ from: deployer });
         });
     });
 

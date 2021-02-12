@@ -24,7 +24,7 @@ contract("PayrollMining", function(accounts) {
     let user5 = accounts[5];
     let user6 = accounts[6];
 
-    /// Global Tokenization contract instance
+    /// Global contract instance
     let payrollMining;
     let memberRegistry;
     let workRewardToken;
@@ -94,7 +94,7 @@ contract("PayrollMining", function(accounts) {
             /// [Todo]:
             const latestPeriodicPayrollVolume = web3.utils.toWei('10000', 'ether');  /// 10000 $WORK
             let txReceipt = await payrollMining.updateBlock({ from: deployer });
-        });     
+        });
     });
 
 });
