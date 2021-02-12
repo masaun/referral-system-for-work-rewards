@@ -15,7 +15,7 @@ contract ReferralNFT is ERC721Metadata {
         uint newTokenId = getNextTokenId();
         currentTokenId++;
         super._mint(to, newTokenId);
-        super._setTokenURI(newTokenId, "https://api.myjson.com/bins/1dhwd6");
+        super._setTokenURI(newTokenId, "https://referral.opolis.co/1dhwd6");  /// [Note]: This URI is just a exapmle
     }
     
     function tokenOfOwnerByIndex(address _owner, uint256 _index) external view returns (uint256);
@@ -23,7 +23,7 @@ contract ReferralNFT is ERC721Metadata {
 
     ///---------------------
     /// Getter methods
-    ///---------------------
+    ///---------------------    
     function getNextTokenId() private view returns (uint _newTokenId) {
         return currentTokenId.add(1);
     }

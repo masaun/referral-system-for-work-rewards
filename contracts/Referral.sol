@@ -6,6 +6,7 @@ import { MemberRegistry } from "./MemberRegistry.sol";
 import { LinkdropMastercopy } from "./linkdrop/linkdrop/LinkdropMastercopy.sol";
 import { LinkdropFactory } from "./linkdrop/factory/LinkdropFactory.sol";
 import { WorkRewardToken } from "./WorkRewardToken.sol";
+import { ReferralNFT } from "./ReferralNFT.sol";
 
 
 /**
@@ -36,10 +37,12 @@ contract Referral is Ownable {
 
     MemberRegistry public memberRegistry;
     WorkRewardToken public workRewardToken;
+    ReferralNFT public referralNFT;
 
-    constructor(MemberRegistry _memberRegistry, WorkRewardToken _workRewardToken) public {
+    constructor(MemberRegistry _memberRegistry, WorkRewardToken _workRewardToken, ReferralNFT _referralNFT) public {
         memberRegistry = _memberRegistry;
         workRewardToken = _workRewardToken;
+        referralNFT = _referralNFT;
     }
 
     /**
@@ -61,8 +64,8 @@ contract Referral is Ownable {
      * 
      * @dev Function to verify linkdrop signer's signature
      * @param _weiAmount Amount of wei to be claimed
-     * @param _tokenAddress Token address
-     * @param _tokenAmount Amount of tokens to be claimed (in atomic value)
+     * @param _nftAddress NFT address
+     * @param _tokenId Token id to be claimed
      * @param _expiration Unix timestamp of link expiration time
      * @param _linkId Address corresponding to link key
      * @param _signature ECDSA signature of linkdrop signer
@@ -70,8 +73,8 @@ contract Referral is Ownable {
      */
     function createReferralLink(
         uint _weiAmount,
-        address _tokenAddress,
-        uint _tokenAmount,
+        address _nftAddress,
+        uint _tokenId,
         uint _expiration,
         address _linkId,
         bytes memory _signature        
@@ -92,7 +95,7 @@ contract Referral is Ownable {
         //linkdropMaster.addSigner(address _linkdropSigner);
 
         /// Creates new link key and verifies its signature
-        linkdropMaster.verifyLinkdropSignerSignature(_weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _signature);
+        linkdropMaster.verifyLinkdropSignerSignatureERC721(_weiAmount, _nftAddress, _tokenId, _expiration, _linkId, _signature);
 
         emit LinkdropMasterCreated(linkdropMaster);
         emit LinkdropFactoryCreated(linkdropFactory);
@@ -117,16 +120,16 @@ contract Referral is Ownable {
         LinkdropMastercopy linkdropMaster = _linkdropMaster;
 
         /// Signs receiver address with link key and verifies this signature onchain
-        linkdropMaster.verifyReceiverSignature(_linkId, _receiver, _signature);        
+        linkdropMaster.verifyReceiverSignatureERC721(_linkId, _receiver, _signature);        
     }
 
     /**
      * @notice - Claim link by a creator of used-referral link (and then, they get tokens as referral rewards)
      *
-     * @dev Function to claim ETH and/or ERC20 tokens (Note: On the Opolis, claimer doesn't receive ETH or ERC20 tokens)
+     * @dev Function to claim ETH and/or ERC721 token. Can only be called when contract is not paused
      * @param _weiAmount Amount of wei to be claimed
-     * @param _tokenAddress Token address
-     * @param _tokenAmount Amount of tokens to be claimed (in atomic value)
+     * @param _nftAddress NFT address
+     * @param _tokenId Token id to be claimed
      * @param _expiration Unix timestamp of link expiration time
      * @param _linkId Address corresponding to link key
      * @param _linkdropMaster Address corresponding to linkdrop master key
@@ -139,8 +142,8 @@ contract Referral is Ownable {
     function claimLink(
         LinkdropFactory _linkdropFactory,
         uint _weiAmount,
-        address _tokenAddress,
-        uint _tokenAmount,
+        address _nftAddress,
+        uint _tokenId,
         uint _expiration,
         address _linkId,
         address payable _linkdropMaster,
@@ -151,32 +154,30 @@ contract Referral is Ownable {
     ) public returns (bool) {
         LinkdropFactory linkdropFactory = _linkdropFactory;
 
-        workRewardToken.approve(address(linkdropFactory), _tokenAmount);
-
         /// Check parameters of the claimed-link in advance
-        bool result = linkdropFactory.checkClaimParams(_weiAmount, 
-                                                       _tokenAddress,
-                                                       _tokenAmount, 
-                                                       _expiration, 
-                                                       _linkId, 
-                                                       _linkdropMaster, 
-                                                       _campaignId, 
-                                                       _linkdropSignerSignature, 
-                                                       _receiver, 
-                                                       _receiverSignature);
+        bool result = linkdropFactory.checkClaimParamsERC721(_weiAmount, 
+                                                             _nftAddress,
+                                                             _tokenId,
+                                                             _expiration, 
+                                                             _linkId, 
+                                                             _linkdropMaster,
+                                                             _campaignId,
+                                                             _linkdropSignerSignature, 
+                                                             _receiver, 
+                                                             _receiverSignature);
 
         require(result == true, "INSUFFICIENT_ALLOWANCE");
         
         /// [Note]: Only link that is not expired link can be claimed
-        linkdropFactory.claim(_weiAmount, 
-                              _tokenAddress,
-                              _tokenAmount, 
-                              _expiration, 
-                              _linkId, 
-                              _linkdropMaster, 
-                              _campaignId, 
-                              _linkdropSignerSignature, 
-                              _receiver, 
-                              _receiverSignature);
+        linkdropFactory.claimERC721(_weiAmount, 
+                                    _nftAddress,
+                                    _tokenId,
+                                    _expiration, 
+                                    _linkId, 
+                                    _linkdropMaster,
+                                    _campaignId,
+                                    _linkdropSignerSignature, 
+                                    _receiver, 
+                                    _receiverSignature);
     }
 }
