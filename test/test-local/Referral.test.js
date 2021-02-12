@@ -10,6 +10,7 @@ const Referral = artifacts.require("Referral");
 const PayrollMining = artifacts.require("PayrollMining");
 const MemberRegistry = artifacts.require("MemberRegistry");
 const WorkRewardToken = artifacts.require("WorkRewardToken");
+const ReferralNFT = artifacts.require("ReferralNFT");
 
 
 /***
@@ -30,12 +31,14 @@ contract("Referral", function(accounts) {
     let payrollMining;
     let memberRegistry;
     let workRewardToken;
+    let referralNFT;
 
     /// Global variable for each contract addresses
     let REFERRAL;
     let PAYROLL_MINING;
     let MEMBER_REGISTRY;
     let WORK_REWARD_TOKEN;
+    let REFERRAL_NFT;
 
     let LINKDROP_MASTER_1;
     let LINKDROP_MASTER_2;
@@ -62,13 +65,18 @@ contract("Referral", function(accounts) {
             WORK_REWARD_TOKEN = workRewardToken.address;
         });
 
+        it("Deploy the ReferralNFT contract instance", async () => {
+            referralNFT = await ReferralNFT.new({ from: deployer });
+            REFERRAL_NFT = referralNFT.address;
+        });
+
         it("Deploy the PayrollMining contract instance", async () => {
             payrollMining = await PayrollMining.new(MEMBER_REGISTRY, WORK_REWARD_TOKEN, { from: deployer });
             PAYROLL_MINING = payrollMining.address;
         });
 
         it("Deploy the Referral contract instance", async () => {
-            referral = await Referral.new(MEMBER_REGISTRY, WORK_REWARD_TOKEN, { from: deployer });
+            referral = await Referral.new(MEMBER_REGISTRY, WORK_REWARD_TOKEN, REFERRAL_NFT, { from: deployer });
             REFERRAL = referral.address;
         });
     });
@@ -93,12 +101,12 @@ contract("Referral", function(accounts) {
     describe("Referral process", () => {
         it("A new referral link should be created", async () => {
             const _weiAmount = web3.utils.toWei('5', 'ether');      /// 5 $WORK
-            const _tokenAddress = WORK_REWARD_TOKEN;                /// $WORK token
-            const _tokenAmount = web3.utils.toWei('100', 'ether');  /// 100 $WORK
+            const _nftAddress = REFERRAL_NFT;                       /// Referral NFT token
+            const _tokenId = await referralNFT.currentTokenId({ from: user1 });  /// new tokenId of the Referral NFT token
             const _expiration = await time.latest();                /// The latest timestamp
             const _linkId = user1;
             const _signature = "0x7465737400000000000000000000000000000000000000000000000000000000";  /// bytes32 type signature
-            let txReceipt = await referral.createReferralLink(_weiAmount, _tokenAddress, _tokenAmount, _expiration, _linkId, _signature, { from: user1 });
+            let txReceipt = await referral.createReferralLink(_weiAmount, _nftAddress, _tokenId, _expiration, _linkId, _signature, { from: user1 });
 
             /// [Note]: Retrieve an event log via web3.js v1.0.0
             let eventOfLinkdropMasterCreated = await referral.getPastEvents('LinkdropMasterCreated', {
@@ -131,8 +139,8 @@ contract("Referral", function(accounts) {
         it("A claimed-link should be successful", async () => {
             const _linkdropFactory = LINKDROP_FACTORY_1;
             const _weiAmount = web3.utils.toWei('5', 'ether');      /// 5 $WORK
-            const _tokenAddress = WORK_REWARD_TOKEN;                /// $WORK token
-            const _tokenAmount = web3.utils.toWei('100', 'ether');  /// 100 $WORK
+            const _nftAddress = REFERRAL_NFT;                       /// Referral NFT token
+            const _tokenId = 1;                                     /// tokenId of the Referral NFT token
             const _expiration = await time.latest();                /// The latest timestamp
             const _linkId = user1;
             const _linkdropMaster = LINKDROP_MASTER_1;
