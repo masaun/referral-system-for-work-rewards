@@ -1,8 +1,16 @@
-# referral-system-for-work-rewards
+# Referral System for $WORK Rewards
 
 ***
-## 【Introduction of the referral-system-for-work-rewards】
-- This is a smart contract that ...
+## 【Introduction of the Referral System for $WORK Rewards】
+- This is a smart contract to deliver a functioning referral system for the $WORK token.
+  - Unique, sharable referral links for each Member who is referring new Members to Opolis
+  - 5M $WORK Rewards are issued per “Payroll Mining Block” to Employee Members, Coalition Members and Stakers. 
+  - Blocks are mined as the Network grows by increments of $50K or 5% in periodic payroll volume, whichever is greater. 
+  - Members receive 100% of the referral credit for Employee Members who join
+  - Members receive 15% of the referral credit for referring Coalition Organizations who act as channel partners for referring new Employee Members. 
+    - NO multi-level referral credit except for referring Organizations where the referring Member receives 15%) 
+  - All members receive $WORK Rewards in perpetuity so long as the referred Member consumes services. 
+    (Those specifications above follow https://www.ethdenver.com/post/opolis)
 
 &nbsp;
 
@@ -18,10 +26,10 @@
 
 ## 【Remarks】
 - Version
-  - Solidity (Solc): v0.6.12
+  - Solidity (Solc): v0.5.16
   - Truffle: v5.1.60
   - web3.js: v1.2.9
-  - openzeppelin-solidity: v3.2.0
+  - openzeppelin-solidity: v2.2.0
   - ganache-cli: v6.9.1 (ganache-core: 2.10.2)
 
 
@@ -69,5 +77,17 @@ $ ganache-cli -d
 
 ## 【References】
 - Opolis
-  - 【ETHDenver 2021 / Opolis】Build a Referral System for $WORK Rewards：  
-     https://www.ethdenver.com/post/opolis
+  - Reward Structure 
+    https://opolis.co/rewards/
+
+  - Opolis bounty in the ETHDenver 2021 (OPOLIS BOUNTY: Build a Referral System for $WORK Rewards)  
+    https://www.ethdenver.com/post/opolis
+
+<br>
+
+- Linkdrop
+  - Linkdrop contract  
+    https://github.com/LinkdropHQ/linkdrop-monorepo/tree/master/packages/contracts
+
+  - Technology Overview (ERC20 & NFT Linkdrop)
+    https://medium.com/volc%C3%A0/technology-overview-erc20-nft-linkdrop-c2909f9bcd19
