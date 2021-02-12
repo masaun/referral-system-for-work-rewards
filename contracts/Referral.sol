@@ -65,20 +65,24 @@ contract Referral is Ownable {
      * @dev Function to verify linkdrop signer's signature
      * @param _weiAmount Amount of wei to be claimed
      * @param _nftAddress NFT address
-     * @param _tokenId Token id to be claimed
      * @param _expiration Unix timestamp of link expiration time
      * @param _linkId Address corresponding to link key
      * @param _signature ECDSA signature of linkdrop signer
+     * @dev _tokenId: Token id to be claimed
      * @return True if signed with linkdrop signer's private key
      */
     function createReferralLink(
         uint _weiAmount,
         address _nftAddress,
-        uint _tokenId,
+        //uint _tokenId,
         uint _expiration,
         address _linkId,
         bytes memory _signature        
     ) public returns (bool) {
+        /// A new referral NFT should be minted to msg.sender
+        referralNFT.mintTo(msg.sender);
+        uint _tokenId = referralNFT.currentTokenId();  /// [Note]: Token id to be claimed
+
         /// Deploy a new LinkdropMaster contract (evert time when a new referral link is created)
         LinkdropMastercopy linkdropMaster = new LinkdropMastercopy();
         address LINKDROP_MASTER = address(linkdropMaster);

@@ -99,20 +99,13 @@ contract("Referral", function(accounts) {
     });
 
     describe("Referral process", () => {
-        it("A new referral NFT should be minted to user1", async () => {
-            let txReceipt = await referralNFT.mintTo(user1, { from: user1 });
-            const _currentTokenId = await referralNFT.currentTokenId({ from: user1 });
-            console.log('=== _currentTokenId ===', String(_currentTokenId));
-        });
-
         it("A new referral link should be created", async () => {
             const _weiAmount = web3.utils.toWei('5', 'ether');      /// 5 $WORK
             const _nftAddress = REFERRAL_NFT;                       /// Referral NFT token
-            const _tokenId = await referralNFT.currentTokenId({ from: user1 });  /// new tokenId of the Referral NFT token
             const _expiration = await time.latest();                /// The latest timestamp
             const _linkId = user1;
             const _signature = "0x7465737400000000000000000000000000000000000000000000000000000000";  /// bytes32 type signature
-            let txReceipt = await referral.createReferralLink(_weiAmount, _nftAddress, _tokenId, _expiration, _linkId, _signature, { from: user1 });
+            let txReceipt = await referral.createReferralLink(_weiAmount, _nftAddress, _expiration, _linkId, _signature, { from: user1 });
 
             /// [Note]: Retrieve an event log via web3.js v1.0.0
             let eventOfLinkdropMasterCreated = await referral.getPastEvents('LinkdropMasterCreated', {
